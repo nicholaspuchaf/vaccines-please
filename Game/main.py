@@ -179,6 +179,25 @@ def create_window():
     video_label = tk.Label(startGameFrame, bg=BG_COLOR)
     video_label.pack(pady=10, expand=True, fill="both") # Allow label to expand
 
+    room_image_path = "static/mainRoom.jpeg"
+
+    pil_image_main_room = None
+
+    try:
+        pil_image_main_room = Image.open(room_image_path)
+    except FileNotFoundError:
+        messagebox.showwarning("Image Warning", f"Image file not found at '{room_image_path}'.")
+    except Exception as e:
+        messagebox.showwarning("Image Warning", f"{e}")
+
+
+    pil_image_main_room = pil_image_main_room.resize((ROOM_WIDTH, ROOM_HEIGHT), Image.LANCZOS)
+
+    tk_main_room = ImageTk.PhotoImage(pil_image_main_room)
+
+    mainRoomLabel = tk.Label(startGameFrame, image=tk_main_room, bg=BG_COLOR)
+    mainRoomLabel.image = tk_main_room
+    mainRoomLabel.pack(pady=10)
 
     # --- Main Menu Frame ---
     # Using a Frame to better control padding and background for the label
