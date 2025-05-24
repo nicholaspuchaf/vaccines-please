@@ -1,0 +1,8 @@
+Package       Version
+------------- ---------
+numpy         2.2.6
+opencv-python 4.11.0.86
+pillow        11.2.1
+pip           22.0.2
+pyzbar        0.1.9
+setuptools    59.6.0
