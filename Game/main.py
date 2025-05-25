@@ -10,10 +10,12 @@ from constants import *
 
 
 # Global Variables for camera and Thread Control
-cap = None
+cap = None 
 stop_event = threading.Event() # Event to signal the video thread to stop
 video_thread = None
 video_label = None # To hold the label that displays the video feed
+qr_decoder = None
+qr_detected = False
 
 # Global Variables for Tkinter Control 
 mainMenuFrame = None
@@ -71,13 +73,20 @@ def update_video_label(tk_image):
 
 def video_stream(root):
     
-    global cap, video_label, stop_event
+    global cap, video_label, stop_event, qr_decoder, qr_detected
 
     cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
         messagebox.showerror("Camera Error", "Could not open video stream or file.")
         stop_event.set() # Set stop event if camera fails to open
+        return
+    
+    qr_decoder = cv2.QRCodeDetector()
+
+    if not qr_decoder:
+        messagebox.showerror("QR Code detector Error")
+        stop_event.set()
         return
     
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
@@ -88,6 +97,16 @@ def video_stream(root):
         if not ret:
             messagebox.showerror("Camera Error", "Failed to grab frame.")
             break
+        
+        
+
+        # QR Code Logic, its working, but needs to implement with the game logic
+        data, bbox, _ = qr_decoder.detectAndDecode(frame)
+        new_state = bool(data)
+        if new_state != qr_detected:
+            qr_detected = new_state
+            print(data)
+
 
         # Convert the frame from BGR (OpenCV) to RGB (Pillow)
         cv2_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -176,15 +195,30 @@ def create_window():
 
 
     # --- Start Game Frame ---
-    
     startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
 
-    video_label = tk.Label(startGameFrame, bg=BG_COLOR)
-    video_label.pack(pady=10, expand=False) # Allow label to expand
-
-    room_image_path = ROOM_CHOSSED
+         # --- Officer Display ---
+    
+    pil_officer_img = None
+    try:
+        pil_officer_img = Image.open(OFFICER_PATH)
+        
+    except FileNotFoundError:
+        messagebox.showerror(f"Officer file not found at {OFFICER_PATH}")
+        return None    
+    except Exception as e:
+        messagebox.showerror(f"Error at Officer loading : {e}")
+        return None
+    
+    pil_officer_img = pil_officer_img.convert("RGBA")
+    original_officer_width, original_officer_height =  pil_officer_img.size
+    new_officer_height = OFFICER_HEIGHT
+    new_officer_width = int((new_officer_height/original_officer_height)*original_officer_width)
+    pil_officer_img = pil_officer_img.resize((new_officer_width, new_officer_height), Image.LANCZOS)
+        
+        # --- Room Background ---
+    room_image_path = ROOM_PATH
     pil_image_main_room = None
-
     try:
         pil_image_main_room = Image.open(room_image_path)
     except FileNotFoundError:
@@ -192,13 +226,24 @@ def create_window():
     except Exception as e:
         messagebox.showwarning("Image Warning", f"{e}")
 
-
     pil_image_main_room = pil_image_main_room.resize((WIDTH, HEIGHT), Image.LANCZOS)
-    tk_main_room = ImageTk.PhotoImage(pil_image_main_room)
+    # Merge it with the officer
+    officer_y_offset = ((HEIGHT - OFFICER_Y_OFFSET))
+    officer_x_offset = OFFICER_X_OFFSET
+    final_pil_image_main_room = pil_image_main_room.copy()
+    final_pil_image_main_room.paste(pil_officer_img,(officer_x_offset, officer_y_offset), pil_officer_img)
+
+    tk_main_room = ImageTk.PhotoImage(final_pil_image_main_room)
     mainRoomLabel = tk.Label(startGameFrame, image=tk_main_room, bg=BG_COLOR)
     mainRoomLabel.image = tk_main_room
     mainRoomLabel.place(x=0, y=0, relwidth=1, relheight=1)
     mainRoomLabel.lower()
+
+        # --- Player Camera ---
+    video_label = tk.Label(startGameFrame, bg=BG_COLOR)
+    video_label.pack(pady=10, expand=False) # Allow label to expand
+
+   
 
     # --- Main Menu Frame ---
     # Using a Frame to better control padding and background for the label
