@@ -113,8 +113,10 @@ def video_stream(root):
             pil_image = pil_image.resize((new_width, new_height), Image.LANCZOS)
 
 
+        pil_image_reflect = pil_image.transpose(Image.FLIP_LEFT_RIGHT)
+
         # Convert PIL Image to Tkinter PhotoImage
-        tk_image = ImageTk.PhotoImage(image=pil_image)
+        tk_image = ImageTk.PhotoImage(image=pil_image_reflect)
 
         # Update the label with the new image
         # Use root.after to schedule the update on the main Tkinter thread
@@ -149,7 +151,7 @@ def create_window():
     heading_font_size = 16
 
     root_window.title("Vaccines, Please")
-    root_window.geometry(str(HEIGHT)+"x"+str(WIDTH)) # Slightly larger window
+    root_window.geometry(str(WIDTH)+"x"+str(HEIGHT)) # Slightly larger window
     root_window.configure(bg=bg_color) # Set window background
 
     root_window.protocol("WM_DELETE_WINDOW", lambda: on_closing(root_window))
@@ -175,12 +177,12 @@ def create_window():
 
     # --- Start Game Frame ---
     
-    startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=20, pady=20)
+    startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
+
     video_label = tk.Label(startGameFrame, bg=BG_COLOR)
-    video_label.pack(pady=10, expand=True, fill="both") # Allow label to expand
+    video_label.pack(pady=10, expand=False) # Allow label to expand
 
-    room_image_path = "static/mainRoom.jpeg"
-
+    room_image_path = ROOM_CHOSSED
     pil_image_main_room = None
 
     try:
@@ -191,13 +193,12 @@ def create_window():
         messagebox.showwarning("Image Warning", f"{e}")
 
 
-    pil_image_main_room = pil_image_main_room.resize((ROOM_WIDTH, ROOM_HEIGHT), Image.LANCZOS)
-
+    pil_image_main_room = pil_image_main_room.resize((WIDTH, HEIGHT), Image.LANCZOS)
     tk_main_room = ImageTk.PhotoImage(pil_image_main_room)
-
     mainRoomLabel = tk.Label(startGameFrame, image=tk_main_room, bg=BG_COLOR)
     mainRoomLabel.image = tk_main_room
-    mainRoomLabel.pack(pady=10)
+    mainRoomLabel.place(x=0, y=0, relwidth=1, relheight=1)
+    mainRoomLabel.lower()
 
     # --- Main Menu Frame ---
     # Using a Frame to better control padding and background for the label
