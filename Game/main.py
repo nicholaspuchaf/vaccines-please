@@ -16,11 +16,16 @@ video_thread = None
 video_label = None # To hold the label that displays the video feed
 qr_decoder = None
 qr_detected = False
+talking_label = None
 
 # Global Variables for Tkinter Control 
 mainMenuFrame = None
 startGameFrame = None
 root_window = None # Global reference to the root Tkinter window
+
+def officer_change_text(text):
+    global talking_label
+    talking_label.configure(text=text)
 
 
 def start_game():
@@ -146,9 +151,9 @@ def video_stream(root):
         time.sleep(0.01)
 
 
-def create_start_frame():
+def create_start_game_frame():
     
-    global startGameFrame, video_label
+    global startGameFrame, video_label, talking_label
 
         # --- Officer Display ---
     pil_officer_img = None
@@ -191,11 +196,17 @@ def create_start_frame():
     mainRoomLabel.place(x=0, y=0, relwidth=1, relheight=1)
     mainRoomLabel.lower()
 
+
+    talking_label = tk.Label(startGameFrame, bg=BG_COLOR, 
+                            relief="sunken", borderwidth=2, anchor="nw", 
+                            font=(FONT_FAMILY, 12, "bold"),
+                            wraplength=TALKING_WIDTH)
+    talking_label.place(x=TALKING_X, y=TALKING_Y, width=TALKING_WIDTH, height=TALKING_HEIGHT)
+
         # --- Player Camera ---
     video_label = tk.Label(startGameFrame, bg=BG_COLOR)
     video_label.pack(pady=10, expand=False) # Allow label to expand
    
-
 
 def create_window():
     """
@@ -239,7 +250,9 @@ def create_window():
 
     # --- Start Game Frame ---
     startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
-    create_start_frame()
+    create_start_game_frame()
+
+    officer_change_text("Você acha que pode entrar no nosso país ? Seu verme, me mostre seus comprovantes de vacina")
 
     # --- Main Menu Frame ---
     # Using a Frame to better control padding and background for the label
@@ -263,7 +276,6 @@ def create_window():
     sub_label.pack(pady=10)
 
     return root_window
-
 
 
 if __name__ == "__main__":
