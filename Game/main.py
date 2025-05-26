@@ -200,6 +200,7 @@ def create_start_game_frame():
     talking_label = tk.Label(startGameFrame, bg=BG_COLOR, 
                             relief="sunken", borderwidth=2, anchor="nw", 
                             font=(FONT_FAMILY, 12, "bold"),
+                            fg="white",
                             wraplength=TALKING_WIDTH)
     talking_label.place(x=TALKING_X, y=TALKING_Y, width=TALKING_WIDTH, height=TALKING_HEIGHT)
 

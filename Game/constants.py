@@ -14,7 +14,7 @@ CAMERA_SIZE_HEIGHT = 200
 
 ROOM_WIDTH = 600
 ROOM_HEIGHT = 400
-ROOM_PATH = "static/mainRoom2.jpeg"
+ROOM_PATH = "static/mainRoom1.jpeg"
 
 OFFICER_PATH = "static/officer_no_bg.png"
 OFFICER_HEIGHT = 500
