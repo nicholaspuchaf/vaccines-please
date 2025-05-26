@@ -146,59 +146,11 @@ def video_stream(root):
         time.sleep(0.01)
 
 
-def create_window():
-    """
-    Creates a Tkinter window with a themed menu.
-    """
-    global video_label, video_thread, stop_event, mainMenuFrame, startGameFrame, root_window
-
-    # Create the main window (root window)
-    root_window = tk.Tk()
-
-
-    # --- Theme Configuration (Buckshot Roulette inspired) ---
-    # Dark background colors
-    bg_color = COLOR_DARK_CHARCOAL # Dark charcoal
-    fg_color = COLOR_LIGHT_GRAY # Light gray for text
-    accent_color = COLOR_DEEP_RED # Deep red for accents
-
-    # Font for a gritty/monospace feel
-    # 'Courier New' is a good default monospace font available on most systems.
-    # You could also try 'Consolas', 'Lucida Console', or 'Monaco' if available.
-    font_family = FONT_FAMILY
-    font_size = 12
-    heading_font_size = 16
-
-    root_window.title("Vaccines, Please")
-    root_window.geometry(str(WIDTH)+"x"+str(HEIGHT)) # Slightly larger window
-    root_window.configure(bg=bg_color) # Set window background
-
-    root_window.protocol("WM_DELETE_WINDOW", lambda: on_closing(root_window))
-
-    # --- Create Menu Bar ---
-    menu_bar = tk.Menu(root_window, bg=bg_color, fg=fg_color,
-                       activebackground=accent_color, activeforeground=fg_color,
-                       font=(font_family, font_size))
-    root_window.config(menu=menu_bar) # Attach the menu bar to the root_window window
-
-    # --- Create 'Game' Menu ---
-    game_menu = tk.Menu(menu_bar, tearoff=0, bg=bg_color, fg=fg_color,
-                        activebackground=accent_color, activeforeground=fg_color,
-                        font=(font_family, font_size))
-    menu_bar.add_cascade(label="Game", menu=game_menu) # Add 'Game' as a top-level menu
-
-    # Add commands to the 'Game' menu
-    game_menu.add_command(label="Start Game", command=start_game)
-    game_menu.add_command(label="Options", command=show_options)
-    game_menu.add_separator() # Add a visual separator
-    game_menu.add_command(label="Quit", command=root_window.quit) # Quits the application
-
-
-    # --- Start Game Frame ---
-    startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
-
-         # --- Officer Display ---
+def create_start_frame():
     
+    global startGameFrame, video_label
+
+        # --- Officer Display ---
     pil_officer_img = None
     try:
         pil_officer_img = Image.open(OFFICER_PATH)
@@ -242,8 +194,52 @@ def create_window():
         # --- Player Camera ---
     video_label = tk.Label(startGameFrame, bg=BG_COLOR)
     video_label.pack(pady=10, expand=False) # Allow label to expand
-
    
+
+
+def create_window():
+    """
+    Creates a Tkinter window with a themed menu.
+    """
+    global video_label, video_thread, stop_event, mainMenuFrame, startGameFrame, root_window
+
+    # Create the main window (root window)
+    root_window = tk.Tk()
+
+
+    # --- Theme Configuration (Buckshot Roulette inspired) ---
+    # Dark background colors
+    bg_color = COLOR_DARK_CHARCOAL # Dark charcoal
+    fg_color = COLOR_LIGHT_GRAY # Light gray for text
+    accent_color = COLOR_DEEP_RED # Deep red for accents
+
+    # Font for a gritty/monospace feel
+    # 'Courier New' is a good default monospace font available on most systems.
+    # You could also try 'Consolas', 'Lucida Console', or 'Monaco' if available.
+    font_family = FONT_FAMILY
+    font_size = 12
+    heading_font_size = 16
+
+    root_window.title("Vaccines, Please")
+    root_window.geometry(str(WIDTH)+"x"+str(HEIGHT)) # Slightly larger window
+    root_window.configure(bg=bg_color) # Set window background
+
+    root_window.protocol("WM_DELETE_WINDOW", lambda: on_closing(root_window))
+
+    # --- Create Menu Bar ---
+    menu_bar = tk.Menu(root_window, bg=bg_color, fg=fg_color,
+                       activebackground=accent_color, activeforeground=fg_color,
+                       font=(font_family, font_size))
+    root_window.config(menu=menu_bar) # Attach the menu bar to the root_window window
+
+    menu_bar.add_command(label="Start", command=start_game)
+    menu_bar.add_command(label="Options", command=show_options)
+    menu_bar.add_command(label="Quit", command=lambda:on_closing(root_window))
+    menu_bar.add_command(label="Credits", command=show_options)
+
+    # --- Start Game Frame ---
+    startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
+    create_start_frame()
 
     # --- Main Menu Frame ---
     # Using a Frame to better control padding and background for the label
