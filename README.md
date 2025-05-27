@@ -6,3 +6,4 @@ O que falta fazer :
 - Criar menu de opções que permite mudar dificuldade e resolução do jogo
 - Criar o guarda, colocar na tela, configurar como ele fala
 - Decidir como será refatorado o código, porque está tudo em um arquivo só por enquanto.
+- Restando conexão com o repositório (apagar isso depois).
