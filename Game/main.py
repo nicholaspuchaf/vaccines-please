@@ -21,7 +21,15 @@ talking_label = None
 # Global Variables for Tkinter Control 
 mainMenuFrame = None
 startGameFrame = None
+storyFrame1 = None
+storyFrame2 = None
+storyFrameUsing = 1
 root_window = None # Global reference to the root Tkinter window
+
+# Variable of the story
+storyFrames = [("static/Mexicolandia.png","Essa é a Mexicolândia, um país assolado por miséria e doença. Eles ficaram nessa condição pois seu presidente não acreditou nas vacinas."), 
+("static/EstadosVacinados1.png","Esse é os Estados Vacinados da América, um ótimo país saudável e muito avançado")]
+
 
 def officer_change_text(text):
     global talking_label
@@ -46,6 +54,7 @@ def start_game():
         video_thread = threading.Thread(target=video_stream, args=(root_window,))
         video_thread.daemon = True # Allow the main program to exit even if this thread is running
         video_thread.start()
+
 
 
 def show_options():
@@ -209,11 +218,83 @@ def create_start_game_frame():
     video_label.pack(pady=10, expand=False) # Allow label to expand
    
 
+def generic_story_frame(imagePath, text):
+
+    global storyFrame1, storyFrame2, storyFrameUsing
+
+    # text = "Essa é a Mexicolândia, um país assolado por miséria e doença. Eles ficaram nessa condição pois seu presidente não acreditou nas vacinas."
+
+    # imagePath = "static/Mexicolandia.png"
+    image = None
+    try:
+        image = Image.open(imagePath)
+        
+    except FileNotFoundError:
+        messagebox.showerror(f"Officer file not found at {imagePath}")
+        return None    
+    except Exception as e:
+        messagebox.showerror(f"Error at Officer loading : {e}")
+        return None
+
+
+    image = image.convert("RGBA")
+    image = image.resize((WIDTH, HEIGHT), Image.LANCZOS)
+
+    tk_image = ImageTk.PhotoImage(image)
+
+    imageLabel = None
+
+    if (storyFrameUsing == 1):
+        imageLabel = tk.Label(storyFrame1, image=tk_image)
+    else:
+        imageLabel = tk.Label(storyFrame2, image=tk_image)
+
+
+    imageLabel.image = tk_image
+    imageLabel.place(x=10, y=10, width=WIDTH-20, height=HEIGHT-20)
+    imageLabel.lower()
+
+    text_label = None
+
+    if(storyFrameUsing == 1):
+        text_label = tk.Label(storyFrame1, bg=COLOR_DARK_CHARCOAL,
+                          relief="sunken", borderwidth=2, anchor="nw",
+                          font=(FONT_FAMILY, 12, "bold"),
+                          fg="white",
+                          wraplength=int(WIDTH*2/3)
+                        )
+    else:
+        text_label = tk.Label(storyFrame2, bg=COLOR_DARK_CHARCOAL,
+                          relief="sunken", borderwidth=2, anchor="nw",
+                          font=(FONT_FAMILY, 12, "bold"),
+                          fg="white",
+                          wraplength=int(WIDTH*2/3)
+                        )
+    text_label.place(x=WIDTH/6, y=HEIGHT - 50, width=int(WIDTH*2/3), height=TALKING_HEIGHT)
+    text_label.config(text=text)
+
+def test_frame():
+    global mainMenuFrame, storyFrame1, storyFrame2, storyFrameUsing, storyFrames
+
+    if mainMenuFrame:
+        mainMenuFrame.forget()
+
+    if storyFrameUsing == 1:
+        if storyFrame1:
+            storyFrame1.pack(pady=10, expand=True, fill="both")
+        storyFrameUsing = 2
+        
+
+    if storyFrameUsing == 2:
+        if storyFrame2:
+            storyFrame2.pack(pady=10, expand=True, fill="both")
+        storyFrameUsing = 1
+
 def create_window():
     """
     Creates a Tkinter window with a themed menu.
     """
-    global video_label, video_thread, stop_event, mainMenuFrame, startGameFrame, root_window
+    global video_label, video_thread, stop_event, mainMenuFrame, startGameFrame, root_window, storyFrames
 
     # Create the main window (root window)
     root_window = tk.Tk()
@@ -247,7 +328,11 @@ def create_window():
     menu_bar.add_command(label="Start", command=start_game)
     menu_bar.add_command(label="Options", command=show_options)
     menu_bar.add_command(label="Quit", command=lambda:on_closing(root_window))
-    menu_bar.add_command(label="Credits", command=show_options)
+    menu_bar.add_command(label="Credits", command=test_frame)
+
+    # --- Load First Story Frame ---
+
+    generic_story_frame(storyFrames[0][0], storyFrames[0][1])
 
     # --- Start Game Frame ---
     startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
