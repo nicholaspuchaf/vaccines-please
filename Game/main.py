@@ -30,10 +30,23 @@ root_window = None # Global reference to the root Tkinter window
 storyFrames = [("static/Mexicolandia.png","Essa é a Mexicolândia, um país assolado por miséria e doença. Eles ficaram nessa condição pois seu presidente não acreditou nas vacinas."), 
 ("static/EstadosVacinados1.png","Esse é os Estados Vacinados da América, um ótimo país saudável e muito avançado")]
 
+storyLabels = []
 
-def officer_change_text(text):
+def officer_change_text(text, index):
     global talking_label
-    talking_label.configure(text=text)
+    talking_label.config(text=text[:index])
+    if index < len(text):
+        talking_label.after(TEXT_DELAY, officer_change_text,text, index+1)
+
+
+def show_story_text(label,text,index):
+
+    if(index == 0):
+        label.config(text="")
+
+    label.config(text=text[:index])
+    if index < len(text):
+        label.after(TEXT_DELAY, show_story_text, text, index+1)
 
 
 def start_game():
@@ -45,6 +58,8 @@ def start_game():
     
     if startGameFrame:
         startGameFrame.pack(pady=10, expand=True, fill="both")
+        officer_change_text("Você acha que pode entrar no nosso país ? Seu verme, me mostre seus comprovantes de vacina",0)
+
 
     # Start the video stream in a separate thread ONLY when game starts
     # Ensure it's not already running
@@ -54,7 +69,6 @@ def start_game():
         video_thread = threading.Thread(target=video_stream, args=(root_window,))
         video_thread.daemon = True # Allow the main program to exit even if this thread is running
         video_thread.start()
-
 
 
 def show_options():
@@ -273,22 +287,30 @@ def generic_story_frame(imagePath, text):
     text_label.place(x=WIDTH/6, y=HEIGHT - 50, width=int(WIDTH*2/3), height=TALKING_HEIGHT)
     text_label.config(text=text)
 
+    return text_label
+
+
 def test_frame():
-    global mainMenuFrame, storyFrame1, storyFrame2, storyFrameUsing, storyFrames
+    global mainMenuFrame, storyFrame1, storyFrame2, storyFrameUsing, storyFrames, storyLabels
 
     if mainMenuFrame:
         mainMenuFrame.forget()
 
+    thisFrame = None
+
     if storyFrameUsing == 1:
-        if storyFrame1:
-            storyFrame1.pack(pady=10, expand=True, fill="both")
+        thisFrame = storyFrame1
         storyFrameUsing = 2
         
 
     if storyFrameUsing == 2:
-        if storyFrame2:
-            storyFrame2.pack(pady=10, expand=True, fill="both")
+        thisFrame = storyFrame2
         storyFrameUsing = 1
+
+    if thisFrame:
+        thisFrame.pack(pady=10, expand=True, fill="both")
+        
+
 
 def create_window():
     """
@@ -316,6 +338,7 @@ def create_window():
     root_window.title("Vaccines, Please")
     root_window.geometry(str(WIDTH)+"x"+str(HEIGHT)) # Slightly larger window
     root_window.configure(bg=bg_color) # Set window background
+    root_window.resizable(False, False)
 
     root_window.protocol("WM_DELETE_WINDOW", lambda: on_closing(root_window))
 
@@ -332,13 +355,15 @@ def create_window():
 
     # --- Load First Story Frame ---
 
-    generic_story_frame(storyFrames[0][0], storyFrames[0][1])
+    story_text_label = generic_story_frame(storyFrames[0][0], storyFrames[0][1])
+    storyLabels.append(story_text_label)
+
 
     # --- Start Game Frame ---
     startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
     create_start_game_frame()
 
-    officer_change_text("Você acha que pode entrar no nosso país ? Seu verme, me mostre seus comprovantes de vacina")
+    # officer_change_text("Você acha que pode entrar no nosso país ? Seu verme, me mostre seus comprovantes de vacina")
 
     # --- Main Menu Frame ---
     # Using a Frame to better control padding and background for the label
