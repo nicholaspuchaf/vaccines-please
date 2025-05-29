@@ -311,7 +311,6 @@ def test_frame():
         thisFrame.pack(pady=10, expand=True, fill="both")
         
 
-
 def create_window():
     """
     Creates a Tkinter window with a themed menu.
