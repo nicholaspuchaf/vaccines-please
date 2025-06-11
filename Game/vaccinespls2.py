@@ -8,8 +8,8 @@ class QRImageSwitcher:
         self.root.title("QR Activated Image Viewer")
         
         # Load images
-        self.image0 = ImageTk.PhotoImage(Image.open("image0.jpg"))
-        self.image1 = ImageTk.PhotoImage(Image.open("image1.jpg"))
+        self.image0 = ImageTk.PhotoImage(Image.open("minhasImagens/image0.jpg"))
+        self.image1 = ImageTk.PhotoImage(Image.open("minhasImagens/image1.jpg"))
         
         # Create display label
         self.label = tk.Label(root)
@@ -40,6 +40,9 @@ class QRImageSwitcher:
 
     def __del__(self):
         self.cap.release()
+
+    
+
 
 # Setup and run
 root = tk.Tk()
