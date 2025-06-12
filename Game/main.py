@@ -376,7 +376,9 @@ def create_window():
     startFrame.create_frame_with_image(root_window)
 
     # Adicionando o frame de jogo
-
+    startGameFrame.create_empty_frame(root_window)
+    create_start_game_frame(startGameFrame)
+    startFrame.configure_next_frame(startGameFrame)
 
     ############################################
     menu_bar.add_command(label="Start", command=lambda:handle_frames(startFrame))

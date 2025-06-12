@@ -146,9 +146,12 @@ class GenericFrame:
 
             self.actual_text = current_frame["text"]
             self.show_story_text(0)
-        
-        #else:   ## FAZER ENTRAR EM GAMERFRAME QUANDO TODAS AS PAGINAS FOREM VISUALIZADAS
 
+        else:   ## FAZER ENTRAR EM GAMERFRAME QUANDO TODAS AS PAGINAS FOREM VISUALIZADAS
+            self=self.nextFrame
+        
+        if self.nextFrame == None and self.whichShow + add >= len(self.image):
+            return self.nextFrame
 
     def next_page_button(self):
         self.next_button = tk.Button(
