@@ -1,9 +1,15 @@
 # vaccines-please
 
-O que falta fazer :
-- Fazer modulo de integracao com leitura de QR_Code
-- Seleção de Opção dentro do jogo
-- Criar menu de opções que permite mudar dificuldade e resolução do jogo
-- Criar o guarda, colocar na tela, configurar como ele fala
-- Decidir como será refatorado o código, porque está tudo em um arquivo só por enquanto.
-- Restando conexão com o repositório (apagar isso depois).
+O que falta fazer (principal) :
+  - Cartas das vacinas/doenças
+  - Testar criar os qrs_codes personalizados
+  - Criar linha de historia
+    - Tipo explicar o que ocorreu no mundo, onde você está, qual seu objetivo, dar uma explicada
+    - Fazer isso com imagens e textos
+  - Criar seçao de escolha de opções dentro do frame do jogo ( frame start_game_frame onde esta o policial )
+  - Criar logica de qr_code de vacinas junto as opecoes do frame start_game_frame
+  - Conectar com o choque do Salvador
+
+O que fazer (extra) :
+  - Refatorar um pouco mais
+
