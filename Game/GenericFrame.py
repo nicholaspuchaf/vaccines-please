@@ -21,6 +21,8 @@ class GenericFrame:
 
         self.ready = False
 
+        self.nextFrame = None
+
     def isReady(self):
         return self.ready
 
@@ -34,7 +36,8 @@ class GenericFrame:
     def pack_frame(self):
         if self.ready == True:
             self.frame.pack(pady=10, expand=True, fill="both")
-            self.show_story_text(0)
+            if self.text_label != None:
+                self.show_story_text(0)
         else:
             print("Tried to pack a not ready frame")
 
@@ -54,7 +57,6 @@ class GenericFrame:
         image = image.resize((WIDTH, HEIGHT), Image.LANCZOS)
 
         tk_image = ImageTk.PhotoImage(image)
-
         self.label = tk.Label(self.frame, image=tk_image)
 
         self.label.image = tk_image
@@ -74,6 +76,16 @@ class GenericFrame:
         self.ready = True
 
         self.next_page_button()
+
+    def create_empty_frame(self,parent,color=BG_COLOR, label=None):    
+        if self.frame == None:
+            self.frame = tk.Frame(parent, bg=color, padx=1, pady=1)
+            self.ready = True    
+        else:
+            print("Trying to recreate a frame")
+
+    def configure_next_frame(self, next):
+        self.nextFrame = next
 
     def show_story_text(self, index):
         if(index == 0):
@@ -102,9 +114,10 @@ class GenericFrame:
             self.actual_text = self.texts[self.whichShow]
             self.show_story_text(0)
         
-        if self.whichShow + add == len(self.images):
-            # start game
-            pass
+        if self.nextFrame == None and self.whichShow + add == len(self.images):
+            return self.nextFrame
+
+            
 
     def next_page_button(self):
         self.next_button = tk.Button(self.frame, text="Proximo", bg=COLOR_DARK_CHARCOAL,

@@ -9,6 +9,8 @@ import time
 from constants import *
 
 from GenericFrame import GenericFrame
+from GamerFrame import GamerFrame
+
 
 # Global Variables for camera and Thread Control
 cap = None 
@@ -20,8 +22,6 @@ qr_detected = False
 talking_label = None
 
 # Global Variables for Tkinter Control 
-mainMenuFrame = None
-startGameFrame = None
 storyFrame1 = None
 storyFrame2 = None
 storyFrameUsing = 1
@@ -176,11 +176,11 @@ def video_stream(root):
         time.sleep(0.01)
 
 
-def create_start_game_frame():
+def create_start_game_frame(startGameFrame):
     
-    global startGameFrame, video_label, talking_label
+    global video_label, talking_label
 
-        # --- Officer Display ---
+    
     pil_officer_img = None
     try:
         pil_officer_img = Image.open(OFFICER_PATH)
@@ -216,13 +216,13 @@ def create_start_game_frame():
     final_pil_image_main_room.paste(pil_officer_img,(officer_x_offset, officer_y_offset), pil_officer_img)
 
     tk_main_room = ImageTk.PhotoImage(final_pil_image_main_room)
-    mainRoomLabel = tk.Label(startGameFrame, image=tk_main_room, bg=BG_COLOR)
+    mainRoomLabel = tk.Label(startGameFrame.frame, image=tk_main_room, bg=BG_COLOR)
     mainRoomLabel.image = tk_main_room
     mainRoomLabel.place(x=0, y=0, relwidth=1, relheight=1)
     mainRoomLabel.lower()
 
 
-    talking_label = tk.Label(startGameFrame, bg=BG_COLOR, 
+    talking_label = tk.Label(startGameFrame.frame, bg=BG_COLOR, 
                             relief="sunken", borderwidth=2, anchor="nw", 
                             font=(FONT_FAMILY, 12, "bold"),
                             fg="white",
@@ -230,7 +230,7 @@ def create_start_game_frame():
     talking_label.place(x=TALKING_X, y=TALKING_Y, width=TALKING_WIDTH, height=TALKING_HEIGHT)
 
         # --- Player Camera ---
-    video_label = tk.Label(startGameFrame, bg=BG_COLOR)
+    video_label = tk.Label(startGameFrame.frame, bg=BG_COLOR)
     video_label.pack(pady=10, expand=False) # Allow label to expand
    
 
@@ -330,7 +330,7 @@ def create_window():
     """
     Creates a Tkinter window with a themed menu.
     """
-    global runningFrame, video_label, video_thread, stop_event, mainMenuFrame, startGameFrame, root_window, storyFrames
+    global runningFrame, video_label, video_thread, stop_event, root_window, storyFrames
 
     # Create the main window (root window)
     root_window = tk.Tk()
@@ -362,6 +362,7 @@ def create_window():
 
     startFrame = GenericFrame()
     startFrame.add_text_and_image(storyFrames[0][1], storyFrames[0][0])
+    startFrame.add_text_and_image("Ola Fernando", storyFrames[0][0])
     startFrame.create_frame_with_image(root_window)
 
     menu_bar.add_command(label="Start", command=lambda:handle_frames(startFrame))
@@ -369,32 +370,27 @@ def create_window():
     menu_bar.add_command(label="Quit", command=lambda:on_closing(root_window))
     menu_bar.add_command(label="Credits", command=lambda:test_frame())
 
-    # --- Load First Story Frame ---
-
-    # story_text_label = generic_story_frame(storyFrames[0][0], storyFrames[0][1])
-    # storyLabels.append(story_text_label)
-
-
     # --- Start Game Frame ---
-    startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
-    create_start_game_frame()
+    # startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
+    startGameFrame = GamerFrame()
+    startGameFrame.create_empty_frame(root_window)
+    create_start_game_frame(startGameFrame)
 
-    # officer_change_text("Você acha que pode entrar no nosso país ? Seu verme, me mostre seus comprovantes de vacina")
 
-    # --- Main Menu Frame ---
-    # Using a Frame to better control padding and background for the label
-    mainMenuFrame = tk.Frame(root_window, bg=bg_color, padx=20, pady=20)
-    mainMenuFrame.pack(expand=True, fill="both") # Expand to fill available space
+    mainMenuFrame = GenericFrame()
+
+    mainMenuFrame.create_empty_frame(root_window)
+    mainMenuFrame.pack_frame()    
     runningFrame = mainMenuFrame
-    
-    main_label = tk.Label(mainMenuFrame,
+
+    main_label = tk.Label(mainMenuFrame.frame,
                           text="Vaccines, Please",
                           bg=bg_color,
                           fg=fg_color,
                           font=(font_family, heading_font_size, "bold"))
     main_label.pack(pady=20) # Add some padding
 
-    sub_label = tk.Label(mainMenuFrame,
+    sub_label = tk.Label(mainMenuFrame.frame,
                          text="Será que você consegue escapar da Mexicolândia e entrar nos estados vacinados da América?",
                          bg=bg_color,
                          fg=fg_color,
