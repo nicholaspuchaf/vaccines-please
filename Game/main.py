@@ -7,7 +7,7 @@ import threading
 import time
 
 from constants import *
-
+from texts import *
 from GenericFrame import GenericFrame
 from GamerFrame import GamerFrame
 
@@ -28,9 +28,7 @@ storyFrameUsing = 1
 root_window = None # Global reference to the root Tkinter window
 runningFrame = None
 
-# Variable of the story
-storyFrames = [("static/Mexicolandia.png","Essa é a Mexicolândia, um país assolado por miséria e doença. Eles ficaram nessa condição pois seu presidente não acreditou nas vacinas."), 
-("static/EstadosVacinados1.png","Esse é os Estados Vacinados da América, um ótimo país saudável e muito avançado")]
+
 
 storyLabels = []
 
@@ -232,6 +230,7 @@ def create_start_game_frame(startGameFrame):
         # --- Player Camera ---
     video_label = tk.Label(startGameFrame.frame, bg=BG_COLOR)
     video_label.pack(pady=10, expand=False) # Allow label to expand
+    officer_change_text("Você acha que pode entrar no nosso país ? Seu verme, me mostre seus comprovantes de vacina",0)
    
 
 def generic_story_frame(imagePath, text):
@@ -360,9 +359,14 @@ def create_window():
                        font=(font_family, font_size))
     root_window.config(menu=menu_bar) # Attach the menu bar to the root_window window
 
+    # Criando e configurando os frames
     startFrame = GenericFrame()
-    startFrame.add_text_and_image(storyFrames[0][1], storyFrames[0][0])
-    startFrame.add_text_and_image("Ola Fernando", storyFrames[0][0])
+
+    # Adicionando os frames (agora como dicionários completos)
+    for frame_dict in storyFrames[:17]:  # Adiciona os frames
+        startFrame.add_frame_data(frame_dict)
+
+    # Criando o frame na janela
     startFrame.create_frame_with_image(root_window)
 
     menu_bar.add_command(label="Start", command=lambda:handle_frames(startFrame))
@@ -371,7 +375,7 @@ def create_window():
     menu_bar.add_command(label="Credits", command=lambda:test_frame())
 
     # --- Start Game Frame ---
-    # startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
+    startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
     startGameFrame = GamerFrame()
     startGameFrame.create_empty_frame(root_window)
     create_start_game_frame(startGameFrame)
