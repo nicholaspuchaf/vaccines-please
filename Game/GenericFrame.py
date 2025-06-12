@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from tkinter import messagebox # Import messagebox for custom alerts
 from PIL import Image, ImageTk # Import Pillow for image manipulation
@@ -148,8 +147,8 @@ class GenericFrame:
             self.actual_text = current_frame["text"]
             self.show_story_text(0)
         
-        if self.nextFrame is None and self.whichShow + add == len(self.frame_data):
-            return self.nextFrame
+        #else:   ## FAZER ENTRAR EM GAMERFRAME QUANDO TODAS AS PAGINAS FOREM VISUALIZADAS
+
 
     def next_page_button(self):
         self.next_button = tk.Button(

@@ -28,7 +28,9 @@ storyFrameUsing = 1
 root_window = None # Global reference to the root Tkinter window
 runningFrame = None
 
-
+# Criando e configurando os frames
+startFrame = GenericFrame()
+startGameFrame = GamerFrame()
 
 storyLabels = []
 
@@ -324,7 +326,6 @@ def handle_frames(frameObj):
         runningFrame.forget()
     frameObj.pack_frame()
 
-
 def create_window():
     """
     Creates a Tkinter window with a themed menu.
@@ -359,9 +360,7 @@ def create_window():
                        font=(font_family, font_size))
     root_window.config(menu=menu_bar) # Attach the menu bar to the root_window window
 
-    # Criando e configurando os frames
-    startFrame = GenericFrame()
-
+    ##### ADICIONA OS FRAMES DE HISTÓRIA #####
     # Adicionando os frames (agora como dicionários completos)
     for frame_dict in storyFrames[:17]:  # Adiciona os frames
         startFrame.add_frame_data(frame_dict)
@@ -369,17 +368,21 @@ def create_window():
     # Criando o frame na janela
     startFrame.create_frame_with_image(root_window)
 
+    # Adicionando os frames
+    for frame_dict in storyFrames[:17]:  # Adiciona os frames
+        startFrame.add_frame_data(frame_dict)
+
+    # Criando o frame na janela
+    startFrame.create_frame_with_image(root_window)
+
+    # Adicionando o frame de jogo
+
+
+    ############################################
     menu_bar.add_command(label="Start", command=lambda:handle_frames(startFrame))
     menu_bar.add_command(label="Options", command=show_options)
     menu_bar.add_command(label="Quit", command=lambda:on_closing(root_window))
     menu_bar.add_command(label="Credits", command=lambda:test_frame())
-
-    # --- Start Game Frame ---
-    startGameFrame = tk.Frame(root_window, bg=BG_COLOR, padx=1, pady=1)
-    startGameFrame = GamerFrame()
-    startGameFrame.create_empty_frame(root_window)
-    create_start_game_frame(startGameFrame)
-
 
     mainMenuFrame = GenericFrame()
 
