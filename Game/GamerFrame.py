@@ -275,9 +275,10 @@ class GamerFrame(GenericFrame):
             font=(FONT_FAMILY, 24, "bold"),
             fg="white"
         )
-        self.counter_label.place(x=WIDTH-200, y=10, anchor="nw")
+        self.counter_label.place(x=WIDTH-200, y=50, anchor="nw")
 
     def start_countdown(self):
+
         if self.counter_value > 0:
             self.counter_value -= 1
             self.counter_label.config(text=f"Tempo : {self.counter_value}")
@@ -285,3 +286,18 @@ class GamerFrame(GenericFrame):
         else:
             self.player_qr_code = "Acabou o tempo"
             self.handle_button()    
+
+    def place_lifebox(self):
+        
+        heart_frame = tk.Frame(self.frame,
+                            bg=BG_COLOR )
+
+        heart_frame.place(x = WIDTH-200, y = 10, anchor="nw")
+        
+        try:
+            heart_image = Image.open("static/heart.png")
+            heart_image = heart_image.convert("RGBA")
+            heart_image = heart_image.resize((HEART_WIDTH, HEART_HEIGHT), Image.LANCZOS)
+        
+        except Exception as e:
+            messagebox.showerror("Erro ao carregar o coracao")
