@@ -11,7 +11,7 @@ from GenericFrame import GenericFrame
 from constants import *
 from texts import *
 
-from Pyshock import shock
+# from Pyshock import shock
 
 class GamerFrame(GenericFrame):
 
@@ -165,13 +165,30 @@ class GamerFrame(GenericFrame):
         if self.control_button_handle["officer_pre_talk"]:
             self.next_page(1) 
             # Aqui recarrega toda a imagem da cena, precisa mudar depois para atualizar somente o texto e as opceos
+            frame_dict = self.frame_data[self.whichShow]
+            try:
+                btn1Text = frame_dict["opcoes"][0]
+                btn2Text = frame_dict["opcoes"][1]
+                btn3Text = frame_dict["opcoes"][2]
+                btn4Text = frame_dict["opcoes"][3]
+            except Exception as e:
+                btn1Text = RESPOSTA_PADRAO_1
+                btn2Text = RESPOSTA_PADRAO_2
+                btn3Text = RESPOSTA_PADRAO_3
+                btn4Text = RESPOSTA_PADRAO_4
 
+
+            self.btn1.config(text=btn1Text)
+            self.btn2.config(text=btn2Text)
+            self.btn3.config(text=btn3Text)
+            self.btn4.config(text=btn4Text)
+        
             # Mudar futuramente para passar as opcoes para o text.py. Fica mais facil de customizar e aumentar as opcoes depois
-            if self.frame_data[self.whichShow]["text"] == "Ei, você! Você não é daqui, não é?":
-                self.btn1.config(text="Sim, a viage (mentir)")
-                self.btn2.config(text="Não, venho de fora")
-                self.clear_button(self.btn3)
-                self.clear_button(self.btn4)
+            # if self.frame_data[self.whichShow]["text"] == "Ei, você! Você não é daqui, não é?":
+            #     self.btn1.config(text="Sim, a viage (mentir)")
+            #     self.btn2.config(text="Não, venho de fora")
+            #     self.clear_button(self.btn3)
+            #     self.clear_button(self.btn4)
 
             if self.frame_data[self.whichShow]["flag"] == "startGame":
                 self.control_button_handle["officer_pre_talk"] = False
@@ -210,7 +227,7 @@ class GamerFrame(GenericFrame):
 
                 try:
                     print("Chamando a funcao shock do salvador")
-                    shock()
+                    # shock()
                 except Exception as e:
                     messagebox.showerror(f"Error ao chamaro shock {e}")
 
@@ -298,6 +315,9 @@ class GamerFrame(GenericFrame):
             heart_image = Image.open("static/heart.png")
             heart_image = heart_image.convert("RGBA")
             heart_image = heart_image.resize((HEART_WIDTH, HEART_HEIGHT), Image.LANCZOS)
-        
+
         except Exception as e:
             messagebox.showerror("Erro ao carregar o coracao")
+
+
+

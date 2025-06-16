@@ -58,27 +58,29 @@ playingFrames = [
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
         "text": "",
-        "flag":""
+        "flag":"",
+        "opcoes":["Teste","Vitao","Victor","Salvador"]
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
         "text": "Ei, você! Você não é daqui, não é?",
-        "flag": ""
+        "flag": "",
+        "opcoes":["Teste","Vitao","Victor","Salvador"]
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
         "text": "Como se chama?",
         "flag":"escolheNome",
-        "opcoes":[]
+        "opcoes":["Teste","Vitao","Victor","Salvador"]
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
         "text": "Você tem algum documento que comprove sua vacinação?",
         "flag":"",
-        "opcoes":[] 
+        "opcoes":["Teste","Vitao","Victor","Salvador"]
     },
     {
         "background": "static/mainRoom1.jpeg",
