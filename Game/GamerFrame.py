@@ -26,6 +26,20 @@ class GamerFrame(GenericFrame):
         self.video_thread :threading.Thread = None
         self.stop_event : threading.Event = threading.Event()
 
+        self.playing_menu_frame = None
+        self.btn1 = None
+        self.btn2 = None
+        self.btn3 = None
+        self.btn4 = None
+
+        self.control_button_handle = {
+            "officer_pre_talk" : True
+        }
+    
+
+
+
+
 
     def setRoot(self,root):
         self.gameRoot = root
@@ -130,6 +144,8 @@ class GamerFrame(GenericFrame):
             return None
         return 
 
+    def clear_button(self,button):
+        button.config(text="")
 
     def close_thread(self):
         self.stop_event.set()
@@ -138,7 +154,57 @@ class GamerFrame(GenericFrame):
         if self.cap and self.cap.isOpened():
             self.cap.release()
 
+    def handle_button(self):
+        
+        print("Button pressed")
+
+        if self.control_button_handle["officer_pre_talk"]:
+            self.next_page(1)
+
+            # Mudar futuramente para passar as opcoes para o text.py. Fica mais facil de customizar e aumentar as opcoes depois
+            if self.frame_data[self.whichShow]["text"] == "Ei, você! Você não é daqui, não é?":
+                self.btn1.config(text="Sim, a viage (mentir)")
+                self.btn2.config(text="Não, venho de fora")
+                self.clear_button(self.btn3)
+                self.clear_button(self.btn4)
+
+        else:
+            pass
 
     def place_playing_menu(self):
-        pass
+        
+        menuFrame = tk.Frame(
+            self.frame,
+            bg=BG_COLOR
+        )
+        menuFrame.place(x=WIDTH-400,y = HEIGHT -200)
+
+        self.playing_menu_frame = menuFrame
+
+        self.btn1 = tk.Button(menuFrame, text="Olá?", command=lambda:self.handle_button(), 
+                        bg=COLOR_DARK_CHARCOAL,
+                        relief="sunken", borderwidth=2, anchor="nw",
+                        font=(FONT_FAMILY, 8, "bold"),
+                        fg="white")
+        self.btn2 = tk.Button(menuFrame, text="Onde estou?", command=lambda:self.handle_button(),
+                         bg=COLOR_DARK_CHARCOAL,
+                        relief="sunken", borderwidth=2, anchor="nw",
+                        font=(FONT_FAMILY, 8, "bold"),
+                        fg="white")
+        self.btn3 = tk.Button(menuFrame, text="Fui preso?", command=lambda:self.handle_button(), 
+                         bg=COLOR_DARK_CHARCOAL,
+                        relief="sunken", borderwidth=2, anchor="nw",
+                        font=(FONT_FAMILY, 8, "bold"),
+                        fg="white")
+        self.btn4 = tk.Button(menuFrame, text="Me solta", command=lambda:self.handle_button(),
+                        bg=COLOR_DARK_CHARCOAL,
+                        relief="sunken", borderwidth=2, anchor="nw",
+                        font=(FONT_FAMILY, 8, "bold"),
+                        fg="white")
+
+        self.btn1.grid(row=0, column=0, padx=5,pady=5)
+        self.btn2.grid(row=0, column=1, padx=5,pady=5)
+        self.btn3.grid(row=1, column=0, padx=5,pady=5)
+        self.btn4.grid(row=1, column=1, padx=5,pady=5)
+
 

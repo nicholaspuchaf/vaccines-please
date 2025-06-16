@@ -176,9 +176,13 @@ class GenericFrame:
                 try:
                     char_image = Image.open(char_img)
                     char_image = char_image.convert("RGBA")
-                    char_image = char_image.resize((200, 400), Image.LANCZOS)
+                    char_width, char_height =  char_image.size
+                    new_char_height = OFFICER_HEIGHT
+                    new_char_width = int((new_char_height/char_height)*char_width)
+                    char_image = char_image.resize((new_char_width, new_char_height), Image.LANCZOS)
+
                     # tk_char_image = ImageTk.PhotoImage(char_image)
-                    characters.append(char_image, (50, HEIGHT-400))
+                    characters.append((char_image,50,HEIGHT-new_char_height-35))
                     # char_label = tk.Label(self.frame, image=tk_char_image, bg=BG_COLOR)
                     # char_label.image = tk_char_image
                     # char_label.place(x=50, y=HEIGHT-400)

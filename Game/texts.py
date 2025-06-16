@@ -57,41 +57,50 @@ playingFrames = [
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
-        "text": ""
+        "text": "",
+        "flag":""
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
-        "text": "Ei, você! Você não é daqui, não é?"
+        "text": "Ei, você! Você não é daqui, não é?",
+        "flag": ""
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
-        "text": "Como se chama?"
+        "text": "Como se chama?",
+        "flag":"escolheNome",
+        "opcoes":[]
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
-        "text": "Você tem algum documento que comprove sua vacinação?"
+        "text": "Você tem algum documento que comprove sua vacinação?",
+        "flag":""
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
-        "text": "Vamos ver o que você tem aqui..."
+        "text": "Vamos ver o que você tem aqui...",
+        "flag":""
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
-        "text": "Hmm, isso parece suspeito."
+        "text": "Hmm, isso parece suspeito.",
+        "flag":""
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
-        "text": "Você vai ter que me convencer de que tomou todas as vacinas."
+        "text": "Você vai ter que me convencer de que tomou todas as vacinas.",
+        "flag":""
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
-        "text": "Vamos começar o interrogatório..."
+        "text": "Vamos começar o interrogatório...",
+        "flag":""
     }  
 ]

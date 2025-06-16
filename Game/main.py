@@ -383,7 +383,10 @@ def create_window():
     playingFrame.add_frame_data(playingFrames[0])
     playingFrame.create_frame_with_image(root_window)     
     playingFrame.next_button.destroy()
+    for frame_dict in playingFrames[:8]:
+        playingFrame.add_frame_data(frame_dict)
     playingFrame.place_camera()
+    playingFrame.place_playing_menu()
 
     ############################################
     menu_bar.add_command(label="Start", command=lambda:handle_frames(startFrame))
