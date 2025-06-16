@@ -11,6 +11,8 @@ from GenericFrame import GenericFrame
 from constants import *
 from texts import *
 
+from Pyshock import shock
+
 class GamerFrame(GenericFrame):
 
     def __init__(self):
@@ -205,7 +207,12 @@ class GamerFrame(GenericFrame):
             else:
                 # print("Errou tomou dano")
                 self.player_life -= 1
-                
+
+                try:
+                    print("Chamando a funcao shock do salvador")
+                    shock()
+                except Exception as e:
+                    messagebox.showerror(f"Error ao chamaro shock {e}")
 
 
             self.counter_value = 0
