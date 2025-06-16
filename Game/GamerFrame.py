@@ -10,15 +10,18 @@ import time
 from GenericFrame import GenericFrame
 from constants import *
 
+from texts import *
+
 class GamerFrame(GenericFrame):
 
     def __init__(self):
         super().__init__()
         
+
+    def place_camera(self):
         pass
 
-
-    
-
+    def create_camera(self):
+        pass
     
 

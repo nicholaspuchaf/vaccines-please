@@ -4,7 +4,9 @@ from PIL import Image, ImageTk # Import Pillow for image manipulation
 
 from constants import *
 
+
 class GenericFrame:
+
     def __init__(self):
         self.frame = None  # Frame de Tkinter que esse Obj terá
         self.frame_data = []  # Agora armazenamos os dicionários completos dos frames
@@ -18,6 +20,7 @@ class GenericFrame:
         self.previous_button = None
         self.ready = False
         self.nextFrame = None
+        
 
     def isReady(self):
         return self.ready
@@ -42,37 +45,60 @@ class GenericFrame:
         
         # Carrega background
         current_frame = self.frame_data[self.whichShow]
+        bg_image = None
         try:
             bg_image = Image.open(current_frame["background"])
             bg_image = bg_image.convert("RGBA")
             bg_image = bg_image.resize((WIDTH, HEIGHT), Image.LANCZOS)
-            tk_bg_image = ImageTk.PhotoImage(bg_image)
+
+            # tk_bg_image = ImageTk.PhotoImage(bg_image)
+            # self.label = tk.Label(self.frame, image=tk_bg_image)
+            # self.label.image = tk_bg_image
+            # self.label.place(x=10, y=10, width=WIDTH-20, height=HEIGHT-20)
+            # self.label.lower()
             
-            self.label = tk.Label(self.frame, image=tk_bg_image)
-            self.label.image = tk_bg_image
-            self.label.place(x=10, y=10, width=WIDTH-20, height=HEIGHT-20)
-            self.label.lower()
         except Exception as e:
             messagebox.showerror(f"Error loading background: {e}")
             return None
 
         # Carrega personagens
         self.clear_characters()
+        
+        characters = []
         for char_img in current_frame.get("characters", []):
             try:
                 char_image = Image.open(char_img)
                 char_image = char_image.convert("RGBA")
                 # Ajuste o tamanho conforme necessário para personagens
                 char_image = char_image.resize((200, 400), Image.LANCZOS)
-                tk_char_image = ImageTk.PhotoImage(char_image)
-                
-                char_label = tk.Label(self.frame, image=tk_char_image, bg=BG_COLOR)
-                char_label.image = tk_char_image
-                char_label.place(x=50, y=HEIGHT-400)  # Posição ajustável
-                self.character_labels.append(char_label)
+
+                # tk_char_image = ImageTk.PhotoImage(char_image)
+                characters.append((char_image,50,HEIGHT-400))
+                # char_label = tk.Label(self.frame, image=tk_char_image, bg=BG_COLOR)
+                # char_label.image = tk_char_image
+                # char_label.place(x=50, y=HEIGHT-400)  # Posição ajustável
+                # self.character_labels.append(char_label)
             except Exception as e:
                 messagebox.showerror(f"Error loading character: {e}")
 
+        # Mudança feita foi : juntei as imagem do personagem com o do background para parecerem estar numa mesma cena
+        # E depois de juntar as imagens, coloca a imagem em uma label só
+        
+        try:
+            final_image = bg_image.copy()
+            if len(characters) > 0:
+                for c in characters:
+                    final_image.paste(c[0],(c[1],c[2]),c[0])
+
+            tk_final_image = ImageTk.PhotoImage(final_image)
+            self.label = tk.Label(self.frame, image=tk_final_image)
+            self.label.image = tk_final_image
+            self.label.place(x=10, y=10, width=WIDTH-20, height=HEIGHT-20)
+            self.label.lower()
+
+
+        except Exception as e:
+            messagebox.showerror(f"Error loading the scene with background and character: {e}")
         # Configura área de texto
         self.text_label = tk.Label(
             self.frame, bg=COLOR_DARK_CHARCOAL,
@@ -116,39 +142,63 @@ class GenericFrame:
             self.whichShow += add
             current_frame = self.frame_data[self.whichShow]
             
+            bg_image = None
             # Atualiza background
             try:
                 bg_image = Image.open(current_frame["background"])
                 bg_image = bg_image.convert("RGBA")
                 bg_image = bg_image.resize((WIDTH, HEIGHT), Image.LANCZOS)
-                tk_bg_image = ImageTk.PhotoImage(bg_image)
-                self.label.config(image=tk_bg_image)
-                self.label.image = tk_bg_image
+                # tk_bg_image = ImageTk.PhotoImage(bg_image)
+                # self.label.config(image=tk_bg_image)
+                # self.label.image = tk_bg_image
             except Exception as e:
                 messagebox.showerror(f"Error loading background: {e}")
                 return None
 
             # Atualiza personagens
             self.clear_characters()
+            characters = []
             for char_img in current_frame.get("characters", []):
                 try:
                     char_image = Image.open(char_img)
                     char_image = char_image.convert("RGBA")
                     char_image = char_image.resize((200, 400), Image.LANCZOS)
-                    tk_char_image = ImageTk.PhotoImage(char_image)
-                    
-                    char_label = tk.Label(self.frame, image=tk_char_image, bg=BG_COLOR)
-                    char_label.image = tk_char_image
-                    char_label.place(x=50, y=HEIGHT-400)
-                    self.character_labels.append(char_label)
+                    # tk_char_image = ImageTk.PhotoImage(char_image)
+                    characters.append(char_image, (50, HEIGHT-400))
+                    # char_label = tk.Label(self.frame, image=tk_char_image, bg=BG_COLOR)
+                    # char_label.image = tk_char_image
+                    # char_label.place(x=50, y=HEIGHT-400)
+                    # self.character_labels.append(char_label)
                 except Exception as e:
                     messagebox.showerror(f"Error loading character: {e}")
+
+            # Mudança feita foi : juntei as imagem do personagem com o do background para parecerem estar numa mesma cena
+            # E depois de juntar as imagens, coloca a imagem em uma label só
+
+            try:
+                final_image = bg_image.copy()
+                if len(characters) > 0:
+                    for c in characters:
+                        final_image.paste(c[0],(c[1],c[2]),c[0])
+
+                tk_final_image = ImageTk.PhotoImage(final_image)
+                image_label = tk.Label(self.frame, image=tk_final_image)
+                image_label.image = tk_final_image
+                image_label.place(x=10, y=10, width=WIDTH-20, height=HEIGHT-20)
+                image_label.lower()
+
+                self.label.destroy()
+                self.label = image_label
+
+            except Exception as e:
+                messagebox.showerror(f"Error loading the scene with background and character: {e}")
 
             self.actual_text = current_frame["text"]
             self.show_story_text(0)
         
-        #else:   ## FAZER ENTRAR EM GAMERFRAME QUANDO TODAS AS PAGINAS FOREM VISUALIZADAS
-
+        else:   ## FAZER ENTRAR EM GAMERFRAME QUANDO TODAS AS PAGINAS FOREM VISUALIZADAS
+            
+            pass
 
     def next_page_button(self):
         self.next_button = tk.Button(
@@ -159,6 +209,7 @@ class GenericFrame:
             command=lambda: self.next_page(1)
         )
         self.next_button.place(x=10, y=HEIGHT-60)
+        
     
     def previous_page_button(self):
         pass

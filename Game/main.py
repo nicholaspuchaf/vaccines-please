@@ -31,6 +31,8 @@ runningFrame = None
 # Criando e configurando os frames
 startFrame = GenericFrame()
 startGameFrame = GamerFrame()
+playingFrame = GamerFrame()
+    
 
 storyLabels = []
 
@@ -376,7 +378,10 @@ def create_window():
     startFrame.create_frame_with_image(root_window)
 
     # Adicionando o frame de jogo
-
+    
+    playingFrame.add_frame_data(playingFrames[0])
+    playingFrame.create_frame_with_image(root_window)     
+    playingFrame.next_button.destroy()
 
     ############################################
     menu_bar.add_command(label="Start", command=lambda:handle_frames(startFrame))
@@ -407,6 +412,8 @@ def create_window():
 
     return root_window
 
+def start_game():
+    handle_frames(playingFrame)
 
 if __name__ == "__main__":
     
