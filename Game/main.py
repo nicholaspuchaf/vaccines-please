@@ -327,6 +327,10 @@ def handle_frames(frameObj):
     if runningFrame != None:
         runningFrame.forget()
     frameObj.pack_frame()
+    runningFrame = frameObj
+
+def end_story_frame():
+    handle_frames(playingFrame)
 
 def create_window():
     """
@@ -376,9 +380,10 @@ def create_window():
 
     # Criando o frame na janela
     startFrame.create_frame_with_image(root_window)
+    startFrame.setEndCallback(end_story_frame)
 
     # Adicionando o frame de jogo
-    
+
     playingFrame.add_frame_data(playingFrames[0])
     playingFrame.create_frame_with_image(root_window)     
     playingFrame.next_button.destroy()
@@ -412,8 +417,6 @@ def create_window():
 
     return root_window
 
-def start_game():
-    handle_frames(playingFrame)
 
 if __name__ == "__main__":
     

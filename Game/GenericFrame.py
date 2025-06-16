@@ -21,6 +21,15 @@ class GenericFrame:
         self.ready = False
         self.nextFrame = None
         
+        self.timeToEnd = False
+
+        self.endCallback = None
+
+    def setEndCallback(self,callback):
+        self.endCallback = callback
+
+    def checkTimeToEnd(self):
+        return self.timeToEnd
 
     def isReady(self):
         return self.ready
@@ -112,6 +121,8 @@ class GenericFrame:
         self.actual_text = current_frame["text"]
         self.ready = True
 
+        self.whichShow += 1
+
         self.next_page_button()
 
     def clear_characters(self):
@@ -197,7 +208,8 @@ class GenericFrame:
             self.show_story_text(0)
         
         else:   ## FAZER ENTRAR EM GAMERFRAME QUANDO TODAS AS PAGINAS FOREM VISUALIZADAS
-            
+            # self.timeToEnd = True
+            self.endCallback()
             pass
 
     def next_page_button(self):
