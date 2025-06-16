@@ -80,19 +80,13 @@ def show_options():
     messagebox.showinfo("Options", "Displaying game options... (Not implemented yet!)")
 
 
-def on_closing(root):
+def on_closing(root : tk.Tk, frame : GamerFrame):
     """
     Handles the window closing event.
     Releases the camera and stops the video thread.
     """
-    global cap, stop_event, video_thread
-    if messagebox.askokcancel("Quit", "Do you want to quit?"):
-        stop_event.set() # Signal the thread to stop
-        if video_thread and video_thread.is_alive():
-            video_thread.join(timeout=1.0) # Wait for the thread to finish (with a timeout)
-        if cap and cap.isOpened():
-            cap.release() # Release the camera
-        root.destroy() # Close the Tkinter window
+    frame.close_thread()
+    root.destroy()
 
 
 def update_video_label(tk_image):
@@ -329,8 +323,10 @@ def handle_frames(frameObj):
     frameObj.pack_frame()
     runningFrame = frameObj
 
+
 def end_story_frame():
     handle_frames(playingFrame)
+
 
 def create_window():
     """
@@ -358,7 +354,7 @@ def create_window():
     root_window.configure(bg=bg_color) # Set window background
     root_window.resizable(False, False)
 
-    root_window.protocol("WM_DELETE_WINDOW", lambda: on_closing(root_window))
+    root_window.protocol("WM_DELETE_WINDOW", lambda: on_closing(root_window, playingFrame))
 
     # --- Create Menu Bar ---
     menu_bar = tk.Menu(root_window, bg=bg_color, fg=fg_color,
@@ -383,15 +379,16 @@ def create_window():
     startFrame.setEndCallback(end_story_frame)
 
     # Adicionando o frame de jogo
-
+    playingFrame.setRoot(root_window)
     playingFrame.add_frame_data(playingFrames[0])
     playingFrame.create_frame_with_image(root_window)     
     playingFrame.next_button.destroy()
+    playingFrame.place_camera()
 
     ############################################
     menu_bar.add_command(label="Start", command=lambda:handle_frames(startFrame))
     menu_bar.add_command(label="Options", command=show_options)
-    menu_bar.add_command(label="Quit", command=lambda:on_closing(root_window))
+    menu_bar.add_command(label="Quit", command=lambda:on_closing(root_window, playingFrame))
     menu_bar.add_command(label="Credits", command=lambda:test_frame())
 
     mainMenuFrame = GenericFrame()
