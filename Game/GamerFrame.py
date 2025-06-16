@@ -33,10 +33,11 @@ class GamerFrame(GenericFrame):
         self.btn4 = None
 
         self.control_button_handle = {
-            "officer_pre_talk" : True
+            "officer_pre_talk" : True,
+            "vacines_cards_time" : False
         }
     
-
+        self.setEndCallback(self.callback)
 
 
 
@@ -49,6 +50,7 @@ class GamerFrame(GenericFrame):
         if self.video_label:
             self.video_label.config(image=image)
             self.video_label.image=image
+
 
 
     def video_stream(self):
@@ -155,11 +157,9 @@ class GamerFrame(GenericFrame):
             self.cap.release()
 
     def handle_button(self):
-        
-        print("Button pressed")
-
         if self.control_button_handle["officer_pre_talk"]:
-            self.next_page(1)
+            self.next_page(1) 
+            # Aqui recarrega toda a imagem da cena, precisa mudar depois para atualizar somente o texto e as opceos
 
             # Mudar futuramente para passar as opcoes para o text.py. Fica mais facil de customizar e aumentar as opcoes depois
             if self.frame_data[self.whichShow]["text"] == "Ei, você! Você não é daqui, não é?":
@@ -168,8 +168,15 @@ class GamerFrame(GenericFrame):
                 self.clear_button(self.btn3)
                 self.clear_button(self.btn4)
 
-        else:
-            pass
+            self.control_button_handle["officer_pre_talk"] = False
+            self.control_button_handle["vacines_cards_time"] = True
+            self.whichShow = 7
+
+        elif self.control_button_handle["vacines_cards_time"]:
+            self.next_page(1)
+
+    def callback(self):
+        print("Callback não apropriado, mudar depois")
 
     def place_playing_menu(self):
         

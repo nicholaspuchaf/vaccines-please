@@ -77,30 +77,42 @@ playingFrames = [
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
         "text": "Você tem algum documento que comprove sua vacinação?",
-        "flag":""
+        "flag":"",
+        "opcoes":[] 
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
         "text": "Vamos ver o que você tem aqui...",
-        "flag":""
+        "flag":"",
+        "opcoes":[]
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
         "text": "Hmm, isso parece suspeito.",
-        "flag":""
+        "flag":"",
+        "opcoes":[]
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
         "text": "Você vai ter que me convencer de que tomou todas as vacinas.",
-        "flag":""
+        "flag":"",
+        "opcoes":[]
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
         "text": "Vamos começar o interrogatório...",
-        "flag":""
-    }  
+        "flag":"",
+        "opcoes":[]
+    },
+    {
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "Me mostre o seu cartão de vacina da Covid19",
+        "flag":"",
+        "opcoes":["Não tenho", "Errr", "Não tomo isso ai", ""]
+    }   
 ]
