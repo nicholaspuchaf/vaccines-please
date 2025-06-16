@@ -8,7 +8,6 @@ O que falta fazer (principal) :
     - Fazer isso com imagens e textos
   - Criar seçao de escolha de opções dentro do frame do jogo ( frame start_game_frame onde esta o policial )
   - Criar logica de qr_code de vacinas junto as opecoes do frame start_game_frame
-  - Conectar com o choque do Salvador
 
 O que fazer (extra) :
   - Refatorar um pouco mais
