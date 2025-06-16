@@ -105,7 +105,7 @@ playingFrames = [
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
         "text": "Vamos começar o interrogatório...",
-        "flag":"",
+        "flag":"startGame",
         "opcoes":[]
     },
     {
@@ -113,6 +113,14 @@ playingFrames = [
         "characters": ["static/officer_no_bg.png"],
         "text": "Me mostre o seu cartão de vacina da Covid19",
         "flag":"",
-        "opcoes":["Não tenho", "Errr", "Não tomo isso ai", ""]
-    }   
+        "opcoes":["Não tenho", "Errr", "Não tomo isso ai", "Lascou"],
+        "vacinaCorreta":"covid19"
+    },
+    {
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "Me mostre o seu cartão de vacina da Gripe Aviária",
+        "flag":"",
+        "opcoes":["Não tenho", "Errr", "Não tomo isso ai", "Perdi"]
+    }    
 ]

@@ -32,15 +32,21 @@ class GamerFrame(GenericFrame):
         self.btn3 = None
         self.btn4 = None
 
-        self.control_button_handle = {
+        self.control_button_handle = { # variavel de controle do jogo usado no handle_button
             "officer_pre_talk" : True,
-            "vacines_cards_time" : False
+            "vacines_cards_time" : False,
+            "waiting_player": False
         }
-    
+
         self.setEndCallback(self.callback)
 
+        # Manuseio do couter: count down: relogio
+        self.counter_value = 0
+        self.counter_label = None
 
-
+        # Manuseio da resposta em qr_code do jogador
+        self.player_qr_code = None
+        self.player_life = PLAYER_LIFE
 
     def setRoot(self,root):
         self.gameRoot = root
@@ -50,8 +56,6 @@ class GamerFrame(GenericFrame):
         if self.video_label:
             self.video_label.config(image=image)
             self.video_label.image=image
-
-
 
     def video_stream(self):
 
@@ -82,7 +86,8 @@ class GamerFrame(GenericFrame):
             new_state = bool(data)
             if new_state != self.qr_detected:
                 self.qr_detected = new_state
-                print(data)
+                # print(data)
+                self.handle_button()
 
 
             # Convert the frame from BGR (OpenCV) to RGB (Pillow)
@@ -122,11 +127,9 @@ class GamerFrame(GenericFrame):
             # Small delay to prevent 100% CPU usage, adjust as needed
             time.sleep(0.01)
 
-
     def place_camera(self):
         self.video_label = tk.Label(self.frame, bg=BG_COLOR)
         self.video_label.pack(pady=10, expand=False)
-
 
     def pack_frame(self):
         self.frame.pack(pady=10, expand=True, fill="both")
@@ -139,7 +142,7 @@ class GamerFrame(GenericFrame):
                 self.video_thread.daemon = True
                 self.video_thread.start()
 
-                print("Video thread running")
+                # print("Video thread running")
 
         except Exception as e:
             messagebox.showerror(f"Error loading player camera: {e}")
@@ -168,15 +171,56 @@ class GamerFrame(GenericFrame):
                 self.clear_button(self.btn3)
                 self.clear_button(self.btn4)
 
-            self.control_button_handle["officer_pre_talk"] = False
-            self.control_button_handle["vacines_cards_time"] = True
-            self.whichShow = 7
+            if self.frame_data[self.whichShow]["flag"] == "startGame":
+                self.control_button_handle["officer_pre_talk"] = False
+                self.control_button_handle["vacines_cards_time"] = True
 
         elif self.control_button_handle["vacines_cards_time"]:
+            
             self.next_page(1)
+            frame_dict = self.frame_data[self.whichShow]
+            btn1Text = frame_dict["opcoes"][0]
+            btn2Text = frame_dict["opcoes"][1]
+            btn3Text = frame_dict["opcoes"][2]
+            btn4Text = frame_dict["opcoes"][3]
+            self.btn1.config(text=btn1Text)
+            self.btn2.config(text=btn2Text)
+            self.btn3.config(text=btn3Text)
+            self.btn4.config(text=btn4Text)
+
+            self.counter_value = COUNTDOWN_TIME
+            self.start_countdown()
+
+            self.control_button_handle["vacines_cards_time"] = False
+            self.control_button_handle["waiting_player"] = True
+
+        elif self.control_button_handle["waiting_player"]:
+            
+            data = self.player_qr_code
+            frame_dict = self.frame_data[self.whichShow]
+            
+            if data == frame_dict["vacinaCorreta"]:
+                # print("Acertou a vacina")
+                pass
+            else:
+                # print("Errou tomou dano")
+                self.player_life -= 1
+                
+
+
+            self.counter_value = 0
+            self.control_button_handle["vacines_cards_time"] = False
+            self.control_button_handle["waiting_player"] = True
 
     def callback(self):
-        print("Callback não apropriado, mudar depois")
+        
+        print("Fim do Jogo")
+
+        if self.control_button_handle["officer_pre_talk"]:
+            self.control_button_handle["officer_pre_talk"] = False
+            self.control_button_handle["vacines_cards_time"] = True
+
+            self.start_playing_numero_frame = self.whichShow
 
     def place_playing_menu(self):
         
@@ -214,4 +258,23 @@ class GamerFrame(GenericFrame):
         self.btn3.grid(row=1, column=0, padx=5,pady=5)
         self.btn4.grid(row=1, column=1, padx=5,pady=5)
 
+    def place_counter(self):
+        
+        self.counter_label = tk.Label(
+            self.frame,
+            text=f"Tempo : {self.counter_value}",
+            bg=COLOR_DARK_CHARCOAL,
+            relief="sunken", borderwidth=2, anchor="nw",
+            font=(FONT_FAMILY, 24, "bold"),
+            fg="white"
+        )
+        self.counter_label.place(x=WIDTH-200, y=10, anchor="nw")
 
+    def start_countdown(self):
+        if self.counter_value > 0:
+            self.counter_value -= 1
+            self.counter_label.config(text=f"Tempo : {self.counter_value}")
+            self.counter_label.after(1000, self.start_countdown)
+        else:
+            self.player_qr_code = "Acabou o tempo"
+            self.handle_button()    

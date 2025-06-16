@@ -215,7 +215,7 @@ class GenericFrame:
             self.show_story_text(0)
         
         else:   ## FAZER ENTRAR EM GAMERFRAME QUANDO TODAS AS PAGINAS FOREM VISUALIZADAS
-            # self.timeToEnd = True
+            
             self.endCallback()
             pass
 
