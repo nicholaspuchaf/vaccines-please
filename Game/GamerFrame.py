@@ -11,7 +11,7 @@ from GenericFrame import GenericFrame
 from constants import *
 from texts import *
 
-# from Pyshock import shock
+from Pyshock import shock
 
 class GamerFrame(GenericFrame):
 
@@ -227,10 +227,12 @@ class GamerFrame(GenericFrame):
 
                 try:
                     print("Chamando a funcao shock do salvador")
-                    # shock()
+                    shock()
                 except Exception as e:
                     messagebox.showerror(f"Error ao chamaro shock {e}")
 
+                if self.player_life == 0:
+                    self.text_label.config(text="Fim de Jogo : Perdeu")
 
             self.counter_value = 0
             self.control_button_handle["vacines_cards_time"] = False
