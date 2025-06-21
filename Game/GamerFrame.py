@@ -87,11 +87,11 @@ class GamerFrame(GenericFrame):
             data, bbox, _ = self.qr_decoder.detectAndDecode(frame)
             new_state = bool(data)
             if new_state != self.qr_detected:
-                self.qr_detected = data
+                self.qr_detected = bool(data)
                 # print(data)
-                if self.qr_detected:
-                    self.handle_button()
-
+                if self.qr_detected and self.control_button_handle["waiting_player"]:
+                    print(data)
+                    self.handle_button(str(data))
 
 
             # Convert the frame from BGR (OpenCV) to RGB (Pillow)
@@ -163,7 +163,7 @@ class GamerFrame(GenericFrame):
         if self.cap and self.cap.isOpened():
             self.cap.release()
 
-    def handle_button(self):
+    def handle_button(self, data=None):
         if self.control_button_handle["officer_pre_talk"]:
             self.next_page(1) 
             # Aqui recarrega toda a imagem da cena, precisa mudar depois para atualizar somente o texto e as opceos
@@ -217,28 +217,28 @@ class GamerFrame(GenericFrame):
 
         elif self.control_button_handle["waiting_player"]:
             
-            data = self.player_qr_code
+            # data = self.player_qr_code
             frame_dict = self.frame_data[self.whichShow]
             
-            if data == frame_dict["vacinaCorreta"]:
-                print("Acertou a vacina")
-                pass
-            else:
-                print("Errou tomou dano")
-                self.player_life -= 1
-
+            if data == None: # jogador escolheu n mostrar nenhum comprovante, e tomar a vacina
                 try:
                     print("Chamando a funcao shock do salvador")
                     # shock()
                 except Exception as e:
                     messagebox.showerror(f"Error ao chamaro shock {e}")
+                    
+            elif data == frame_dict["vacinaCorreta"]:
+                print("Acertou a vacina")
+            else:
+                print("Errou tomou dano")
+                self.player_life -= 1
 
                 if self.player_life == 0:
                     self.text_label.config(text="Fim de Jogo : Perdeu")
 
             self.counter_value = 0
-            self.control_button_handle["vacines_cards_time"] = False
-            self.control_button_handle["waiting_player"] = True
+            self.control_button_handle["vacines_cards_time"] = True
+            self.control_button_handle["waiting_player"] = False
 
     def callback(self):
         
