@@ -3,8 +3,7 @@ storyFrames = [
         "background": "static/Mexicolandia.png",
         "characters": [],
         "text": "Essa é a Mexicolândia, um país assolado por miséria e doença. Eles ficaram nessa condição pois seu presidente não acreditou nas vacinas."
-    }
-    ,
+    },
     {
         "background": "static/Mexicolandia.png",
         "characters": [],
@@ -177,4 +176,8 @@ playingFrames = [
         ],
         "vacinaCorreta": "gripeAviaria"
     }
+]
+
+vaccines_frames = [
+
 ]

@@ -11,6 +11,7 @@ class GenericFrame:
         self.frame = None  # Frame de Tkinter que esse Obj terá
         self.frame_data = []  # Agora armazenamos os dicionários completos dos frames
         self.whichShow = 0  # indica qual frame mostrar
+
         self.label = None  # Ponteiro para o label onde está a imagem
         self.text_label = None  # Ponteiro para onde está guardado o texto
         self.actual_text = None
@@ -50,8 +51,8 @@ class GenericFrame:
             print("Tried to pack a not ready frame")
 
     def create_frame_with_image(self, parent, x=WIDTH/6, y=HEIGHT-60):
+
         self.frame = tk.Frame(parent, bg=BG_COLOR, padx=1, pady=1)
-        
         # Carrega background
         current_frame = self.frame_data[self.whichShow]
         bg_image = None
@@ -60,12 +61,6 @@ class GenericFrame:
             bg_image = bg_image.convert("RGBA")
             bg_image = bg_image.resize((WIDTH, HEIGHT), Image.LANCZOS)
 
-            # tk_bg_image = ImageTk.PhotoImage(bg_image)
-            # self.label = tk.Label(self.frame, image=tk_bg_image)
-            # self.label.image = tk_bg_image
-            # self.label.place(x=10, y=10, width=WIDTH-20, height=HEIGHT-20)
-            # self.label.lower()
-            
         except Exception as e:
             messagebox.showerror(f"Error loading background: {e}")
             return None
@@ -84,12 +79,7 @@ class GenericFrame:
                 new_char_width = int((new_char_height/char_height)*char_width)
                 char_image = char_image.resize((new_char_width, new_char_height), Image.LANCZOS)
 
-                # tk_char_image = ImageTk.PhotoImage(char_image)
                 characters.append((char_image,50,HEIGHT-new_char_height-35))
-                # char_label = tk.Label(self.frame, image=tk_char_image, bg=BG_COLOR)
-                # char_label.image = tk_char_image
-                # char_label.place(x=50, y=HEIGHT-400)  # Posição ajustável
-                # self.character_labels.append(char_label)
             except Exception as e:
                 messagebox.showerror(f"Error loading character: {e}")
 
@@ -162,9 +152,6 @@ class GenericFrame:
                 bg_image = Image.open(current_frame["background"])
                 bg_image = bg_image.convert("RGBA")
                 bg_image = bg_image.resize((WIDTH, HEIGHT), Image.LANCZOS)
-                # tk_bg_image = ImageTk.PhotoImage(bg_image)
-                # self.label.config(image=tk_bg_image)
-                # self.label.image = tk_bg_image
             except Exception as e:
                 messagebox.showerror(f"Error loading background: {e}")
                 return None
@@ -180,13 +167,8 @@ class GenericFrame:
                     new_char_height = OFFICER_HEIGHT
                     new_char_width = int((new_char_height/char_height)*char_width)
                     char_image = char_image.resize((new_char_width, new_char_height), Image.LANCZOS)
-
-                    # tk_char_image = ImageTk.PhotoImage(char_image)
                     characters.append((char_image,50,HEIGHT-new_char_height-35))
-                    # char_label = tk.Label(self.frame, image=tk_char_image, bg=BG_COLOR)
-                    # char_label.image = tk_char_image
-                    # char_label.place(x=50, y=HEIGHT-400)
-                    # self.character_labels.append(char_label)
+                    
                 except Exception as e:
                     messagebox.showerror(f"Error loading character: {e}")
 

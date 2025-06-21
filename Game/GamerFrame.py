@@ -11,7 +11,7 @@ from GenericFrame import GenericFrame
 from constants import *
 from texts import *
 
-from Pyshock import shock
+# from Pyshock import shock
 
 class GamerFrame(GenericFrame):
 
@@ -87,9 +87,11 @@ class GamerFrame(GenericFrame):
             data, bbox, _ = self.qr_decoder.detectAndDecode(frame)
             new_state = bool(data)
             if new_state != self.qr_detected:
-                self.qr_detected = new_state
+                self.qr_detected = data
                 # print(data)
-                self.handle_button()
+                if self.qr_detected:
+                    self.handle_button()
+
 
 
             # Convert the frame from BGR (OpenCV) to RGB (Pillow)
@@ -219,15 +221,15 @@ class GamerFrame(GenericFrame):
             frame_dict = self.frame_data[self.whichShow]
             
             if data == frame_dict["vacinaCorreta"]:
-                # print("Acertou a vacina")
+                print("Acertou a vacina")
                 pass
             else:
-                # print("Errou tomou dano")
+                print("Errou tomou dano")
                 self.player_life -= 1
 
                 try:
                     print("Chamando a funcao shock do salvador")
-                    shock()
+                    # shock()
                 except Exception as e:
                     messagebox.showerror(f"Error ao chamaro shock {e}")
 
