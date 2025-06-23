@@ -197,9 +197,8 @@ class GenericFrame:
             self.show_story_text(0)
         
         else:   ## FAZER ENTRAR EM GAMERFRAME QUANDO TODAS AS PAGINAS FOREM VISUALIZADAS
-            
             self.endCallback()
-            pass
+            
 
     def next_page_button(self):
         self.next_button = tk.Button(

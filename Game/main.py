@@ -126,6 +126,8 @@ def create_window():
 
     ##### ADICIONA OS FRAMES DE HISTÓRIA #####
     # Adicionando os frames (agora como dicionários completos)
+    
+
     for frame_dict in storyFrames:  # Adiciona os frames
         startFrame.add_frame_data(frame_dict)
 
@@ -143,7 +145,7 @@ def create_window():
     playingFrame.place_camera()
     playingFrame.place_playing_menu()
     playingFrame.place_counter()
-
+    playingFrame.place_lifebox()
 
     ############################################
     menu_bar.add_command(label="Start", command=lambda:handle_frames(startFrame))

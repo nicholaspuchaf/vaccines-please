@@ -49,6 +49,9 @@ class GamerFrame(GenericFrame):
         # Manuseio da resposta em qr_code do jogador
         self.player_qr_code = None
         self.player_life = PLAYER_LIFE
+        self.heart_frame_number_label = None
+        self.heart_label = None
+
 
     def setRoot(self,root):
         self.gameRoot = root
@@ -179,19 +182,11 @@ class GamerFrame(GenericFrame):
                 btn3Text = RESPOSTA_PADRAO_3
                 btn4Text = RESPOSTA_PADRAO_4
 
-
             self.btn1.config(text=btn1Text)
             self.btn2.config(text=btn2Text)
             self.btn3.config(text=btn3Text)
             self.btn4.config(text=btn4Text)
         
-            # Mudar futuramente para passar as opcoes para o text.py. Fica mais facil de customizar e aumentar as opcoes depois
-            # if self.frame_data[self.whichShow]["text"] == "Ei, você! Você não é daqui, não é?":
-            #     self.btn1.config(text="Sim, a viage (mentir)")
-            #     self.btn2.config(text="Não, venho de fora")
-            #     self.clear_button(self.btn3)
-            #     self.clear_button(self.btn4)
-
             if self.frame_data[self.whichShow]["flag"] == "startGame":
                 self.control_button_handle["officer_pre_talk"] = False
                 self.control_button_handle["vacines_cards_time"] = True
@@ -226,13 +221,14 @@ class GamerFrame(GenericFrame):
                     # shock()
                 except Exception as e:
                     messagebox.showerror(f"Error ao chamaro shock {e}")
-                    
             elif data == frame_dict["vacinaCorreta"]:
                 print("Acertou a vacina")
             else:
+                # Mostrou a vacina falsa
                 print("Errou tomou dano")
                 self.player_life -= 1
 
+                self.update_life()
                 if self.player_life == 0:
                     self.text_label.config(text="Fim de Jogo : Perdeu")
 
@@ -240,15 +236,46 @@ class GamerFrame(GenericFrame):
             self.control_button_handle["vacines_cards_time"] = True
             self.control_button_handle["waiting_player"] = False
 
+        else:
+            print("Fim do Jogo")
+
     def callback(self):
         
         print("Fim do Jogo")
+        self.control_button_handle["officer_pre_talk"] = False
+        self.control_button_handle["vacines_cards_time"] = False
 
-        if self.control_button_handle["officer_pre_talk"]:
-            self.control_button_handle["officer_pre_talk"] = False
-            self.control_button_handle["vacines_cards_time"] = True
+        # ending = ending_frames[0]
+        if self.player_life >= 1:
+            # ending entrou
+            ending = ending_frames[0] # Good entding
+            pass
+            # if mentiu 
+        else:
+            # Não entrou
+            pass        
+        
+        bg_image = None
+        try:
+            bg_image = Image.open(ending["background"])
+            bg_image = bg_image.convert("RGBA")
+            bg_image = bg_image.resize((WIDTH, HEIGHT), Image.LANCZOS)
 
-            self.start_playing_numero_frame = self.whichShow
+        except Exception as e:
+            messagebox.showerror(f"Error loading background: {e}")
+            return None
+
+        tk_final_image = ImageTk.PhotoImage(bg_image)
+        self.label.config(image=tk_final_image)
+        self.label.image = tk_final_image
+        self.actual_text = ending["text"]
+
+        self.heart_label.destroy()
+        self.counter_label.destroy()
+        self.playing_menu_frame.destroy()
+
+
+        self.show_story_text(0)        
 
     def place_playing_menu(self):
         
@@ -296,7 +323,7 @@ class GamerFrame(GenericFrame):
             font=(FONT_FAMILY, 24, "bold"),
             fg="white"
         )
-        self.counter_label.place(x=WIDTH-200, y=50, anchor="nw")
+        self.counter_label.place(x=WIDTH-200, y=90, anchor="nw")
 
     def start_countdown(self):
 
@@ -313,15 +340,34 @@ class GamerFrame(GenericFrame):
         heart_frame = tk.Frame(self.frame,
                             bg=BG_COLOR )
 
-        heart_frame.place(x = WIDTH-200, y = 10, anchor="nw")
         
         try:
             heart_image = Image.open("static/heart.png")
             heart_image = heart_image.convert("RGBA")
             heart_image = heart_image.resize((HEART_WIDTH, HEART_HEIGHT), Image.LANCZOS)
-
+            
         except Exception as e:
             messagebox.showerror("Erro ao carregar o coracao")
+        
+        heart_tk = ImageTk.PhotoImage(heart_image)
+        heart_label = tk.Label(heart_frame, image=heart_tk, bg=BG_COLOR)
+        heart_label.image = heart_tk
+        
+        number_label = tk.Label(
+            heart_frame,
+            text=self.player_life,
+            bg=COLOR_DARK_CHARCOAL,
+            relief="sunken", borderwidth=2, anchor="nw",
+            font=(FONT_FAMILY, 18, "bold"),
+            fg="white"
+        )
+        
+        number_label.pack(side=tk.LEFT)
+        heart_label.pack(side=tk.RIGHT)
 
+        heart_frame.place(x = WIDTH-200, y = 10, anchor="nw")
+        self.heart_frame_number_label = number_label
+        self.heart_label = heart_frame
 
-
+    def update_life(self):
+        self.heart_frame_number_label.config(self.player_life)

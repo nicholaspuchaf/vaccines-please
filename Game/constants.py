@@ -38,3 +38,4 @@ RESPOSTA_PADRAO_1 = "Sim"
 RESPOSTA_PADRAO_2 = "Não"
 RESPOSTA_PADRAO_3 = "Perdi"
 RESPOSTA_PADRAO_4 = "Vai se ferrar"
+

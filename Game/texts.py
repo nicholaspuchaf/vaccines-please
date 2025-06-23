@@ -156,10 +156,10 @@ playingFrames = [
         "text": "Mostre o cartão de vacina da Covid-19. Agora.",
         "flag": "",
         "opcoes": [
-            "Aqui, ó, tá tudo certinho.",
+            "Não tomei, e agora ?",
             "Não tenho isso comigo agora.",
             "Tomei, mas perdi o cartão.",
-            "Covid? Isso ainda é exigido?"
+            ""
         ],
         "vacinaCorreta": "covid19"
     },
@@ -169,15 +169,32 @@ playingFrames = [
         "text": "E o cartão da vacina contra Gripe Aviária? Cadê?",
         "flag": "",
         "opcoes": [
-            "Tá aqui, olha aí.",
-            "Gripe Aviária? Nunca ouvi falar.",
-            "Acho que perdi esse cartão também.",
-            "Vacina de gripe de passarinho? Sério isso?"
+            "Não tomei, e agora ?",
+            "Não tenho isso comigo agora.",
+            "Tomei, mas perdi o cartão.",
+            ""
         ],
         "vacinaCorreta": "gripeAviaria"
     }
 ]
 
-vaccines_frames = [
-
+ending_frames = [
+    {
+        "background": "static/EstadosVacinados1.png",
+        "characters": [""],
+        "text": "Parabéns, bem vindo aos Estados Vacinados da América, fico feliz que tenha tomado todas as vacinas.",
+        "flag": "goodEnding",
+    },
+    {
+        "background": "static/EstadosVacinados1.png",
+        "characters": [""],
+        "text": "Parabéns, bem vindo aos Estados Vacinados da América, fico feliz que tenha tomado todas as vacinas.",
+        "flag": "badEnding",
+    },
+    {
+        "background": "static/EstadosVacinados1.png",
+        "characters": [""],
+        "text": "Parabéns, bem vindo aos Estados Vacinados da América, fico feliz que tenha tomado todas as vacinas.",
+        "flag": "sadEnding",
+    }
 ]
