@@ -145,7 +145,8 @@ def create_window():
     playingFrame.place_camera()
     playingFrame.place_playing_menu()
     playingFrame.place_counter()
-    playingFrame.place_lifebox()
+    # playingFrame.place_lifebox()
+    playingFrame.place_false_counter()
 
     ############################################
     menu_bar.add_command(label="Start", command=lambda:handle_frames(startFrame))

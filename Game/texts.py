@@ -153,7 +153,7 @@ playingFrames = [
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
-        "text": "Mostre o cartão de vacina da Covid-19. Agora.",
+        "text": "Mostre o cartão de vacina da Peste Bubonica. Agora.",
         "flag": "",
         "opcoes": [
             "Não tomei, e agora ?",
@@ -161,12 +161,14 @@ playingFrames = [
             "Tomei, mas perdi o cartão.",
             ""
         ],
-        "vacinaCorreta": "covid19"
+        "vacinaCorreta": "https://bubonica",
+        "outras":["https://bubonica_f1,https://bubonica_f2,https://bubonica_f3"],
+        "vacina":"Peste Bubonica"
     },
     {
         "background": "static/mainRoom1.jpeg",
         "characters": ["static/officer_no_bg.png"],
-        "text": "E o cartão da vacina contra Gripe Aviária? Cadê?",
+        "text": "E o cartão da vacina contra Covid-19? Cadê?",
         "flag": "",
         "opcoes": [
             "Não tomei, e agora ?",
@@ -174,7 +176,125 @@ playingFrames = [
             "Tomei, mas perdi o cartão.",
             ""
         ],
-        "vacinaCorreta": "gripeAviaria"
+        "vacinaCorreta": "https://covid",
+        "outras":["https://covid_f1,https://covid_f2,https://covid_f3"],
+        "vacina":"Covid-19"
+    },{
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "Mostre o cartão de vacina da Febre Amarela. Agora.",
+        "flag": "",
+        "opcoes": [
+            "Não tomei, e agora ?",
+            "Não tenho isso comigo agora.",
+            "Tomei, mas perdi o cartão.",
+            ""
+        ],
+        "vacinaCorreta": "https://febre",
+        "outras":["https://febre_f1,https://febre_f2,https://febre_f3"],
+        "vacina":"Febre Amarela"
+    },
+    {
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "E o cartão da vacina contra HIV? Cadê?",
+        "flag": "",
+        "opcoes": [
+            "Não tomei, e agora ?",
+            "Não tenho isso comigo agora.",
+            "Tomei, mas perdi o cartão.",
+            ""
+        ],
+        "vacinaCorreta": "https://hiv",
+        "outras":["https://hiv_f1,https://hiv_f2,https://hiv_f3"],
+        "vacina":"Virus da Imunodeficiencia Humana"
+    },{
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "Mostre o cartão de vacina da Poliomelite. Agora.",
+        "flag": "",
+        "opcoes": [
+            "Não tomei, e agora ?",
+            "Não tenho isso comigo agora.",
+            "Tomei, mas perdi o cartão.",
+            ""
+        ],
+        "vacinaCorreta": "https://poliomelite",
+        "outras":["https://poliomelite_f1,https://poliomelite_f2,https://poliomelite_f3"],
+        "vacina":"Poliomelite"
+    },
+    {
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "E o cartão da vacina contra Rubéola? Cadê?",
+        "flag": "",
+        "opcoes": [
+            "Não tomei, e agora ?",
+            "Não tenho isso comigo agora.",
+            "Tomei, mas perdi o cartão.",
+            ""
+        ],
+        "vacinaCorreta": "https://rubeola",
+        "outras":["https://rubeola_f1,https://rubeola_f2,https://rubeola_f3"],
+        "vacina":"Rubéola"
+    },{
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "Mostre o cartão de vacina da Tetano. Agora.",
+        "flag": "",
+        "opcoes": [
+            "Não tomei, e agora ?",
+            "Não tenho isso comigo agora.",
+            "Tomei, mas perdi o cartão.",
+            ""
+        ],
+        "vacinaCorreta": "https://tetano",
+        "outras":["https://tetano_f1,https://tetano_f2,https://tetano_f3"],
+        "vacina":"Tétano"
+    },
+    {
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "E o cartão da vacina contra Tuberculose? Cadê?",
+        "flag": "",
+        "opcoes": [
+            "Não tomei, e agora ?",
+            "Não tenho isso comigo agora.",
+            "Tomei, mas perdi o cartão.",
+            ""
+        ],
+        "vacinaCorreta": "https://tuberculose",
+        "outras":["https://tuberculose_f1,https://tuberculose_f2,https://tuberculose_f3"],
+        "vacina":"Tuberculose"
+    },{
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "Mostre o cartão de vacina da Variola. Agora.",
+        "flag": "",
+        "opcoes": [
+            "Não tomei, e agora ?",
+            "Não tenho isso comigo agora.",
+            "Tomei, mas perdi o cartão.",
+            ""
+        ],
+        "vacinaCorreta": "https://variola",
+        "outras":["https://variola_f1,https://variola_f2,https://variola_f3"],
+        "vacina":"Varíola"
+    },
+    {
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "E o cartão da vacina contra Zika? Cadê?",
+        "flag": "",
+        "opcoes": [
+            "Não tomei, e agora ?",
+            "Não tenho isso comigo agora.",
+            "Tomei, mas perdi o cartão.",
+            ""
+        ],
+        "vacinaCorreta": "https://zika",
+        "outras":["https://zika_f1,https://zika_f2,https://zika_f3"],
+        "vacina":"Zika"
     }
 ]
 
@@ -188,7 +308,7 @@ ending_frames = [
     {
         "background": "static/EstadosVacinados1.png",
         "characters": [""],
-        "text": "Parabéns, bem vindo aos Estados Vacinados da América, fico feliz que tenha tomado todas as vacinas.",
+        "text": "Seu maldito, entrou no Estados Vacinas da América sem vacina. Agora trouxe a doença para todos. O país foi devastado por sua causa",
         "flag": "badEnding",
     },
     {

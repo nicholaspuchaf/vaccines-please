@@ -52,6 +52,8 @@ class GamerFrame(GenericFrame):
         self.heart_frame_number_label = None
         self.heart_label = None
 
+        self.false_counter = 0
+        self.falseLabel = None
 
     def setRoot(self,root):
         self.gameRoot = root
@@ -221,20 +223,31 @@ class GamerFrame(GenericFrame):
                     # shock()
                 except Exception as e:
                     messagebox.showerror(f"Error ao chamaro shock {e}")
+                self.counter_value = 0
+                self.control_button_handle["vacines_cards_time"] = True
+                self.control_button_handle["waiting_player"] = False
             elif data == frame_dict["vacinaCorreta"]:
                 print("Acertou a vacina")
+                self.counter_value = 0
+                self.control_button_handle["vacines_cards_time"] = True
+                self.control_button_handle["waiting_player"] = False
+            elif data in frame_dict["outras"]: # mostoru uma vacina falsa
+                print("Vacina falsa mostrada")
+                self.false_counter += 1
+                self.update_false_counter()
+                self.counter_value = 0
+                self.control_button_handle["vacines_cards_time"] = True
+                self.control_button_handle["waiting_player"] = False
             else:
-                # Mostrou a vacina falsa
-                print("Errou tomou dano")
-                self.player_life -= 1
-
-                self.update_life()
-                if self.player_life == 0:
-                    self.text_label.config(text="Fim de Jogo : Perdeu")
-
-            self.counter_value = 0
-            self.control_button_handle["vacines_cards_time"] = True
-            self.control_button_handle["waiting_player"] = False
+                
+                print("Errou a vacina")
+                # self.player_life -= 1
+                # self.update_life()
+                # if self.player_life == 0:
+                #     self.text_label.config(text="Fim de Jogo : Perdeu")
+                if self.actual_text != f"Comprovante errado seu animal, quero {frame_dict['vacina']}": 
+                    self.actual_text = f"Comprovante errado seu animal, quero {frame_dict['vacina']}"    
+                    self.show_story_text(0)
 
         else:
             print("Fim do Jogo")
@@ -246,15 +259,12 @@ class GamerFrame(GenericFrame):
         self.control_button_handle["vacines_cards_time"] = False
 
         # ending = ending_frames[0]
-        if self.player_life >= 1:
-            # ending entrou
+        if self.place_false_counter == 0:
             ending = ending_frames[0] # Good entding
-            pass
-            # if mentiu 
         else:
             # Não entrou
-            pass        
-        
+            ending = ending_frames[1] # Bad Ending
+    
         bg_image = None
         try:
             bg_image = Image.open(ending["background"])
@@ -371,3 +381,18 @@ class GamerFrame(GenericFrame):
 
     def update_life(self):
         self.heart_frame_number_label.config(self.player_life)
+
+    def place_false_counter(self):
+
+        falseLabel = tk.Label(self.frame,
+                            text=f"Vacinas falsas usadas:{self.false_counter}",
+                            bg=COLOR_DARK_CHARCOAL,
+                            relief="sunken", borderwidth=2, anchor="nw",
+                            font=(FONT_FAMILY, 14, "bold"),
+                            fg="white")
+        
+        falseLabel.place(x = WIDTH-300, y = 10)
+        self.falseLabel = falseLabel
+
+    def update_false_counter(self):
+        self.falseLabel.config(text=f"Vacinas falsas usadas:{self.false_counter}")
