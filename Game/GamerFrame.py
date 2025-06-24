@@ -37,7 +37,9 @@ class GamerFrame(GenericFrame):
         self.control_button_handle = { # variavel de controle do jogo usado no handle_button
             "officer_pre_talk" : True,
             "vacines_cards_time" : False,
-            "waiting_player": False
+            "waiting_player": False,
+            "vacining": False,
+            "success_vaccine": False
         }
 
         self.setEndCallback(self.callback)
@@ -87,9 +89,13 @@ class GamerFrame(GenericFrame):
                 break
             
             
-
+            
             # QR Code Logic, its working, but needs to implement with the game logic
-            data, bbox, _ = self.qr_decoder.detectAndDecode(frame)
+            try:
+                data, bbox, _ = self.qr_decoder.detectAndDecode(frame)
+            except cv2.error:
+                #print(e)
+                continue
             new_state = bool(data)
             if new_state != self.qr_detected:
                 self.qr_detected = bool(data)
@@ -195,12 +201,17 @@ class GamerFrame(GenericFrame):
 
         elif self.control_button_handle["vacines_cards_time"]:
             
-            self.next_page(1)
+            flag = self.next_page(1)
+
+            if flag == -2:
+                return
+            
             frame_dict = self.frame_data[self.whichShow]
             btn1Text = frame_dict["opcoes"][0]
             btn2Text = frame_dict["opcoes"][1]
             btn3Text = frame_dict["opcoes"][2]
             btn4Text = frame_dict["opcoes"][3]
+
             self.btn1.config(text=btn1Text)
             self.btn2.config(text=btn2Text)
             self.btn3.config(text=btn3Text)
@@ -218,39 +229,60 @@ class GamerFrame(GenericFrame):
             frame_dict = self.frame_data[self.whichShow]
             
             if data == None: # jogador escolheu n mostrar nenhum comprovante, e tomar a vacina
-                try:
-                    # print("Chamando a funcao shock do salvador")
-                    shock()
-                except Exception as e:
-                    messagebox.showerror(f"Error ao chamaro shock {e}")
-                
-                self.counter_value = 0
-                self.control_button_handle["vacines_cards_time"] = True
+                self.control_button_handle["vacining"] = True
                 self.control_button_handle["waiting_player"] = False
+
+
+                self.actual_text ="Vem aqui que vou te dar essa vacina que você não tomou, seu lazarento!"
+                self.counter_value = 0
+                self.show_story_text(0)
+                self.btn1.config(text="Pronto tomei")
+                self.btn2.config(text="Doi pra caramba")
+
             elif data == frame_dict["vacinaCorreta"]:
                 # print("Acertou a vacina")
                 
                 self.counter_value = 0
-                self.control_button_handle["vacines_cards_time"] = True
+                self.control_button_handle["vacines_cards_time"] = False
                 self.control_button_handle["waiting_player"] = False
+                self.control_button_handle["success_vaccine"] = True
+
             elif data in frame_dict["outras"]: # mostoru uma vacina falsa
                 # print("Vacina falsa mostrada")
 
                 self.false_counter += 1
                 self.update_false_counter()
                 self.counter_value = 0
-                self.control_button_handle["vacines_cards_time"] = True
+                self.control_button_handle["vacines_cards_time"] = False
                 self.control_button_handle["waiting_player"] = False
+                self.control_button_handle["success_vaccine"] = True
+
             else:
-                
-                print("Errou a vacina")
-                # self.player_life -= 1
-                # self.update_life()
-                # if self.player_life == 0:
-                #     self.text_label.config(text="Fim de Jogo : Perdeu")
                 if self.actual_text != f"Comprovante errado seu animal, quero {frame_dict['vacina']}": 
                     self.actual_text = f"Comprovante errado seu animal, quero {frame_dict['vacina']}"    
                     self.show_story_text(0)
+
+        elif self.control_button_handle["vacining"]:
+            
+            try:
+                print("Chamando a funcao shock do salvador")
+                # shock()
+            except Exception as e:
+                messagebox.showerror(f"Error ao chamaro shock {e}")
+            
+            self.control_button_handle["vacines_cards_time"] = True
+            self.control_button_handle["vacining"] = False
+
+        elif self.control_button_handle["success_vaccine"]:
+            
+            self.actual_text = "Finalmente seu jegue, vacina correta. Até minha vó acha as cartas mais rápido que você. Vou te pedir a próxima."
+            self.btn1.config(text="Ta bom seu guarda, manda ai")
+            self.btn2.config(text="Sim senhor, estou com medo")
+
+            self.show_story_text(0)
+        
+            self.control_button_handle["vacines_cards_time"] = True
+            self.control_button_handle["success_vaccine"] = False
 
         else:
             print("Fim do Jogo")
@@ -262,12 +294,13 @@ class GamerFrame(GenericFrame):
         self.control_button_handle["vacines_cards_time"] = False
 
         # ending = ending_frames[0]
-        if self.place_false_counter == 0:
+        if self.false_counter == 0:
             ending = ending_frames[0] # Good entding
         else:
             # Não entrou
             ending = ending_frames[1] # Bad Ending
     
+
         bg_image = None
         try:
             bg_image = Image.open(ending["background"])
@@ -283,10 +316,9 @@ class GamerFrame(GenericFrame):
         self.label.image = tk_final_image
         self.actual_text = ending["text"]
 
-        self.heart_label.destroy()
+        # self.heart_label.destroy()
         self.counter_label.destroy()
         self.playing_menu_frame.destroy()
-
 
         self.show_story_text(0)        
 
@@ -322,9 +354,9 @@ class GamerFrame(GenericFrame):
                         fg="white")
 
         self.btn1.grid(row=0, column=0, padx=5,pady=5)
-        self.btn2.grid(row=0, column=1, padx=5,pady=5)
-        self.btn3.grid(row=1, column=0, padx=5,pady=5)
-        self.btn4.grid(row=1, column=1, padx=5,pady=5)
+        self.btn2.grid(row=1, column=0, padx=5,pady=5)
+        # self.btn3.grid(row=1, column=0, padx=5,pady=5)
+        # self.btn4.grid(row=1, column=1, padx=5,pady=5)
 
     def place_counter(self):
         

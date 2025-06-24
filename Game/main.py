@@ -168,7 +168,7 @@ def create_window():
     main_label.pack(pady=20) # Add some padding
 
     sub_label = tk.Label(mainMenuFrame.frame,
-                         text="Será que você consegue escapar da Mexicolândia e entrar nos estados vacinados da América?",
+                         text="Será que você consegue escapar da União das Repúblicas Sem Saúde (URSS) e entrar nos estados vacinados da América?",
                          bg=bg_color,
                          fg=fg_color,
                          font=(font_family, font_size),

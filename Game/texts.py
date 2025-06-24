@@ -2,7 +2,7 @@ storyFrames = [
     {
         "background": "static/Mexicolandia.png",
         "characters": [],
-        "text": "Essa é a Mexicolândia, um país assolado por miséria e doença. Eles ficaram nessa condição pois seu presidente não acreditou nas vacinas."
+        "text": "Essa é a União das Repúblicas Sem Saúde (URSS), um país assolado por miséria e doença. Eles ficaram nessa condição pois seu presidente não acreditou nas vacinas."
     },
     {
         "background": "static/Mexicolandia.png",
@@ -32,12 +32,12 @@ storyFrames = [
     {
         "background": "static/Mexicolandia.png",
         "characters": [],
-        "text": "Você é um jovem que cresceu em Mexicolândia e sonha em viver nos Estados Vacinados da América."
+        "text": "Você é um jovem que cresceu em União das Repúblicas Sem Saúde (URSS) e sonha em viver nos Estados Vacinados da América."
     },
     {
         "background": "static/Mexicolandia.png",
         "characters": [],
-        "text": "Você decidiu que era hora de deixar Mexicolândia e tentar a sorte nos Estados Vacinados, porém não havia como entrar sem ser vacinado."
+        "text": "Você decidiu que era hora de deixar União das Repúblicas Sem Saúde (URSS) e tentar a sorte nos Estados Vacinados, porém não havia como entrar sem ser vacinado."
     },
     {
         "background": "static/Mexicolandia.png",
@@ -72,7 +72,7 @@ playingFrames = [
         "text": "Ei, você, imigrante! De onde veio?",
         "flag": "",
         "opcoes": [
-            "Vim da Mexicolândia!.",
+            "Vim da União das Repúblicas Sem Saúde (URSS)!.",
             "Estou só de passagem, não quero confusão.",
             "E você, quem é?",
             "Prefiro não responder."
@@ -162,7 +162,7 @@ playingFrames = [
             ""
         ],
         "vacinaCorreta": "https://bubonica",
-        "outras":["https://bubonica_f1,https://bubonica_f2,https://bubonica_f3"],
+        "outras":["https://bubonica_f1","https://bubonica_f2","https://bubonica_f3"],
         "vacina":"Peste Bubonica"
     },
     {
@@ -177,7 +177,7 @@ playingFrames = [
             ""
         ],
         "vacinaCorreta": "https://covid",
-        "outras":["https://covid_f1,https://covid_f2,https://covid_f3"],
+        "outras":["https://covid_f1","https://covid_f2","https://covid_f3"],
         "vacina":"Covid-19"
     },{
         "background": "static/mainRoom1.jpeg",
@@ -191,7 +191,7 @@ playingFrames = [
             ""
         ],
         "vacinaCorreta": "https://febre",
-        "outras":["https://febre_f1,https://febre_f2,https://febre_f3"],
+        "outras":["https://febre_f1","https://febre_f2","https://febre_f3"],
         "vacina":"Febre Amarela"
     },
     {
@@ -206,7 +206,7 @@ playingFrames = [
             ""
         ],
         "vacinaCorreta": "https://hiv",
-        "outras":["https://hiv_f1,https://hiv_f2,https://hiv_f3"],
+        "outras":["https://hiv_f1","https://hiv_f2","https://hiv_f3"],
         "vacina":"Virus da Imunodeficiencia Humana"
     },{
         "background": "static/mainRoom1.jpeg",
@@ -220,7 +220,7 @@ playingFrames = [
             ""
         ],
         "vacinaCorreta": "https://poliomelite",
-        "outras":["https://poliomelite_f1,https://poliomelite_f2,https://poliomelite_f3"],
+        "outras":["https://poliomelite_f1","https://poliomelite_f2","https://poliomelite_f3"],
         "vacina":"Poliomelite"
     },
     {
@@ -235,7 +235,7 @@ playingFrames = [
             ""
         ],
         "vacinaCorreta": "https://rubeola",
-        "outras":["https://rubeola_f1,https://rubeola_f2,https://rubeola_f3"],
+        "outras":["https://rubeola_f1","https://rubeola_f2","https://rubeola_f3"],
         "vacina":"Rubéola"
     },{
         "background": "static/mainRoom1.jpeg",
@@ -249,7 +249,7 @@ playingFrames = [
             ""
         ],
         "vacinaCorreta": "https://tetano",
-        "outras":["https://tetano_f1,https://tetano_f2,https://tetano_f3"],
+        "outras":["https://tetano_f1","https://tetano_f2","https://tetano_f3"],
         "vacina":"Tétano"
     },
     {
@@ -264,7 +264,7 @@ playingFrames = [
             ""
         ],
         "vacinaCorreta": "https://tuberculose",
-        "outras":["https://tuberculose_f1,https://tuberculose_f2,https://tuberculose_f3"],
+        "outras":["https://tuberculose_f1","https://tuberculose_f2","https://tuberculose_f3"],
         "vacina":"Tuberculose"
     },{
         "background": "static/mainRoom1.jpeg",
@@ -278,7 +278,7 @@ playingFrames = [
             ""
         ],
         "vacinaCorreta": "https://variola",
-        "outras":["https://variola_f1,https://variola_f2,https://variola_f3"],
+        "outras":["https://variola_f1","https://variola_f2","https://variola_f3"],
         "vacina":"Varíola"
     },
     {
@@ -293,8 +293,23 @@ playingFrames = [
             ""
         ],
         "vacinaCorreta": "https://zika",
-        "outras":["https://zika_f1,https://zika_f2,https://zika_f3"],
+        "outras":["https://zika_f1","https://zika_f2","https://zika_f3"],
         "vacina":"Zika"
+    }
+]
+
+vacinacao_frame = [
+    {
+        "background": "static/mainRoom1.jpeg",
+        "characters": ["static/officer_no_bg.png"],
+        "text": "Vem aqui que vou te dar essa vacina que você não tomou, seu lazarento!",
+        "flag": "",
+        "opcoes": [
+            "Pronto tomei",
+            "Doi pra caramba, porra",
+            "",
+            ""
+        ],
     }
 ]
 
@@ -306,7 +321,7 @@ ending_frames = [
         "flag": "goodEnding",
     },
     {
-        "background": "static/EstadosVacinados1.png",
+        "background": "static/badEnding.jpeg",
         "characters": [""],
         "text": "Seu maldito, entrou no Estados Vacinas da América sem vacina. Agora trouxe a doença para todos. O país foi devastado por sua causa",
         "flag": "badEnding",

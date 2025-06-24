@@ -198,6 +198,8 @@ class GenericFrame:
         
         else:   ## FAZER ENTRAR EM GAMERFRAME QUANDO TODAS AS PAGINAS FOREM VISUALIZADAS
             self.endCallback()
+
+            return -2
             
 
     def next_page_button(self):
