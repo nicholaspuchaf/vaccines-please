@@ -4,11 +4,14 @@ import time
 
 def find_arduino_port():
     ports = serial.tools.list_ports.comports()
-    print(ports)
+    # print(ports)
     for port in ports:
-        if 'Arduino' in port.description or 'CH340' in port.description:
+        # print(port.description)
+        if 'Arduino' in port.description or 'CH340' in port.description or 'ttyACM0' in port.description:
             return port.device
     return None
+
+# /dev/ttyACM0
 
 port = find_arduino_port()
 

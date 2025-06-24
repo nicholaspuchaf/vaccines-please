@@ -11,7 +11,7 @@ void loop() {
     char c = Serial.read();
     if (c == 's') {
       digitalWrite(8, LOW);
-      delay(500);
+      delay(50);
       digitalWrite(8, HIGH);
       delay(1000);
       safety++;

@@ -11,7 +11,7 @@ from GenericFrame import GenericFrame
 from constants import *
 from texts import *
 
-# from Pyshock import shock
+from Pyshock import shock
 
 class GamerFrame(GenericFrame):
 
@@ -219,20 +219,23 @@ class GamerFrame(GenericFrame):
             
             if data == None: # jogador escolheu n mostrar nenhum comprovante, e tomar a vacina
                 try:
-                    print("Chamando a funcao shock do salvador")
-                    # shock()
+                    # print("Chamando a funcao shock do salvador")
+                    shock()
                 except Exception as e:
                     messagebox.showerror(f"Error ao chamaro shock {e}")
+                
                 self.counter_value = 0
                 self.control_button_handle["vacines_cards_time"] = True
                 self.control_button_handle["waiting_player"] = False
             elif data == frame_dict["vacinaCorreta"]:
-                print("Acertou a vacina")
+                # print("Acertou a vacina")
+                
                 self.counter_value = 0
                 self.control_button_handle["vacines_cards_time"] = True
                 self.control_button_handle["waiting_player"] = False
             elif data in frame_dict["outras"]: # mostoru uma vacina falsa
-                print("Vacina falsa mostrada")
+                # print("Vacina falsa mostrada")
+
                 self.false_counter += 1
                 self.update_false_counter()
                 self.counter_value = 0
